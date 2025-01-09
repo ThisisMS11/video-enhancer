@@ -14,25 +14,55 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { ImageIcon, Text, Upload, Wand2 } from 'lucide-react'
+import { Text, Upload, Wand2, XCircle } from 'lucide-react'
 import { FileUploaderRegular } from '@uploadcare/react-uploader/next';
 import '@uploadcare/react-uploader/core.css';
+import { Progress } from "@/components/ui/progress"
 
 export default function VideoGenerator() {
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [model, setModel] = useState<string>('RealESRGAN_x4plus');
     const [resolution, setResolution] = useState<string>('FHD');
 
-    const handleUpload = async (fileInfo: any) => {
+    const [predictionId, setPredictionId] = useState<string | null>(null);
+    const [status, setStatus] = useState<string>('idle');
+    const [enhancedVideoUrl, setEnhancedVideoUrl] = useState<string | null>(null);
+    const [uploadCareCdnUrl, setUploadCareCdnUrl] = useState<string | null>(null);
+
+
+    /* Get the prediction status */
+    const pollPredictionStatus = async (id: string) => {
         try {
-            // Get the file from Uploadcare
+            const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/replicate/prediction?id=${id}`);
+            const data = await response.json();
+
+            console.log(`pollPredictionStatus: ${data}`);
+
+            if (data.status === 'succeeded') {
+                setStatus('completed');
+                setEnhancedVideoUrl(data.output);
+            } else if (data.status === 'failed') {
+                setStatus('error');
+            } else {
+                // Continue polling if still processing
+                setTimeout(() => pollPredictionStatus(id), 1000);
+            }
+        } catch (error) {
+            console.error('Polling error:', error);
+            setStatus('error');
+        }
+    };
+
+    /* Upload the video to the server */
+    const handleUpload = async (videoUrl: string | null) => {
+        try {
+            setStatus('uploading');
             const body = {
-                videoUrl: fileInfo.cdnUrl,
+                videoUrl,
                 model: model,
                 resolution: resolution,
             }
 
-            const response = await fetch('http://localhost:3000/api/v1/replicate', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/replicate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,9 +71,81 @@ export default function VideoGenerator() {
             });
 
             const data = await response.json();
-            console.log(data);
+            console.log(`handleUpload: ${data}`);
+            if (data.id) {
+                setPredictionId(data.id);
+                setStatus('processing');
+                pollPredictionStatus(data.id);
+            }
         } catch (error) {
             console.error('Upload error:', error);
+            setStatus('error');
+        }
+    };
+
+    const renderRightSide = () => {
+        switch (status) {
+            case 'uploading':
+                return (
+                    <div className="space-y-4">
+                        <div className="mx-auto w-20 h-20 rounded-full bg-muted flex items-center justify-center animate-pulse">
+                            <Upload className="w-10 h-10 text-muted-foreground" />
+                        </div>
+                        <h2 className="text-2xl font-semibold">Uploading Video...</h2>
+                        <Progress value={33} className="w-[60%] mx-auto" />
+                    </div>
+                );
+            case 'processing':
+                return (
+                    <div className="space-y-4">
+                        <div className="mx-auto w-20 h-20 rounded-full bg-muted flex items-center justify-center animate-spin">
+                            <Wand2 className="w-10 h-10 text-muted-foreground" />
+                        </div>
+                        <h2 className="text-2xl font-semibold">Enhancing Video...</h2>
+                        <Progress value={66} className="w-[60%] mx-auto" />
+                    </div>
+                );
+            case 'completed':
+                return (
+                    <div className="space-y-4">
+                        <video className="w-full aspect-video bg-muted rounded-lg" controls>
+                            <source src={enhancedVideoUrl || ''} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <p className="text-sm text-green-600">
+                            Video enhancement completed!
+                        </p>
+                    </div>
+                );
+            case 'error':
+                return (
+                    <div className="space-y-4">
+                        <div className="mx-auto w-20 h-20 rounded-full bg-red-100 flex items-center justify-center">
+                            <XCircle className="w-10 h-10 text-red-600" />
+                        </div>
+                        <h2 className="text-2xl font-semibold text-red-600">Processing Failed</h2>
+                        <p className="text-muted-foreground">
+                            Please try again or contact support if the issue persists.
+                        </p>
+                    </div>
+                );
+            default:
+                return (
+                    <div className="flex-1 p-6">
+                        <div className="flex flex-col items-center justify-center h-full text-center">
+
+                            <div className="space-y-4">
+                                <div className="mx-auto w-20 h-20 rounded-full bg-muted flex items-center justify-center">
+                                    <Wand2 className="w-10 h-10 text-muted-foreground" />
+                                </div>
+                                <h2 className="text-2xl font-semibold">Ready to Enhance the Quality of Your Video</h2>
+                                <p className="text-muted-foreground">
+                                    Upload a video and enhance its quality
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                );
         }
     };
 
@@ -72,7 +174,7 @@ export default function VideoGenerator() {
                                                 sourceList="local, url, camera, dropbox, gdrive"
                                                 classNameUploader="uc-light uc-red"
                                                 pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY || ''}
-                                                onFileUploadSuccess={(info) => handleUpload(info)}
+                                                onFileUploadSuccess={(info) => setUploadCareCdnUrl(info.cdnUrl)}
                                             />
                                         </div>
                                     </CardContent>
@@ -107,7 +209,7 @@ export default function VideoGenerator() {
                             </div>
 
 
-                            <Button className="w-full" size="lg">
+                            <Button className="w-full" size="lg" onClick={() => handleUpload(uploadCareCdnUrl)}>
                                 <Wand2 className="w-4 h-4 mr-2" />
                                 Enhance Video
                             </Button>
@@ -117,31 +219,7 @@ export default function VideoGenerator() {
             </div>
 
             {/* Right Side */}
-            <div className="flex-1 p-6">
-                <div className="flex flex-col items-center justify-center h-full text-center">
-                    {selectedFile ? (
-                        <div className="space-y-4">
-                            <video className="w-full aspect-video bg-muted rounded-lg" controls>
-                                <source src="#" type="video/mp4" />
-                                Your browser does not support the video tag.
-                            </video>
-                            <p className="text-sm text-muted-foreground">
-                                Video will appear here after generation
-                            </p>
-                        </div>
-                    ) : (
-                        <div className="space-y-4">
-                            <div className="mx-auto w-20 h-20 rounded-full bg-muted flex items-center justify-center">
-                                <Wand2 className="w-10 h-10 text-muted-foreground" />
-                            </div>
-                            <h2 className="text-2xl font-semibold">Ready to Create Your Video</h2>
-                            <p className="text-muted-foreground">
-                                Upload an image and describe how you want it to animate
-                            </p>
-                        </div>
-                    )}
-                </div>
-            </div>
+            {renderRightSide()}
         </div>
     )
 }
