@@ -1,23 +1,20 @@
-'use client'
+'use client';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-    Card,
-    CardContent,
-} from "@/components/ui/card"
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent } from '@/components/ui/card';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
-import { Text, Upload, Wand2, XCircle } from 'lucide-react'
+} from '@/components/ui/select';
+import { Text, Upload, Wand2, XCircle } from 'lucide-react';
 import { FileUploaderRegular } from '@uploadcare/react-uploader/next';
 import '@uploadcare/react-uploader/core.css';
-import { Progress } from "@/components/ui/progress"
+import { Progress } from '@/components/ui/progress';
 
 export default function VideoGenerator() {
     const [model, setModel] = useState<string>('RealESRGAN_x4plus');
@@ -25,14 +22,19 @@ export default function VideoGenerator() {
 
     const [predictionId, setPredictionId] = useState<string | null>(null);
     const [status, setStatus] = useState<string>('idle');
-    const [enhancedVideoUrl, setEnhancedVideoUrl] = useState<string | null>(null);
-    const [uploadCareCdnUrl, setUploadCareCdnUrl] = useState<string | null>(null);
-
+    const [enhancedVideoUrl, setEnhancedVideoUrl] = useState<string | null>(
+        null
+    );
+    const [uploadCareCdnUrl, setUploadCareCdnUrl] = useState<string | null>(
+        null
+    );
 
     /* Get the prediction status */
     const pollPredictionStatus = async (id: string) => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/replicate/prediction?id=${id}`);
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/replicate/prediction?id=${id}`
+            );
             const data = await response.json();
 
             console.log(`pollPredictionStatus: ${data}`);
@@ -60,15 +62,18 @@ export default function VideoGenerator() {
                 videoUrl,
                 model: model,
                 resolution: resolution,
-            }
+            };
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/replicate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(body),
-            });
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/replicate`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(body),
+                }
+            );
 
             const data = await response.json();
             console.log(`handleUpload: ${data}`);
@@ -91,7 +96,9 @@ export default function VideoGenerator() {
                         <div className="mx-auto w-20 h-20 rounded-full bg-muted flex items-center justify-center animate-pulse">
                             <Upload className="w-10 h-10 text-muted-foreground" />
                         </div>
-                        <h2 className="text-2xl font-semibold">Uploading Video...</h2>
+                        <h2 className="text-2xl font-semibold">
+                            Uploading Video...
+                        </h2>
                         <Progress value={33} className="w-[60%] mx-auto" />
                     </div>
                 );
@@ -101,15 +108,23 @@ export default function VideoGenerator() {
                         <div className="mx-auto w-20 h-20 rounded-full bg-muted flex items-center justify-center animate-spin">
                             <Wand2 className="w-10 h-10 text-muted-foreground" />
                         </div>
-                        <h2 className="text-2xl font-semibold">Enhancing Video...</h2>
+                        <h2 className="text-2xl font-semibold">
+                            Enhancing Video...
+                        </h2>
                         <Progress value={66} className="w-[60%] mx-auto" />
                     </div>
                 );
             case 'completed':
                 return (
                     <div className="space-y-4">
-                        <video className="w-full aspect-video bg-muted rounded-lg" controls>
-                            <source src={enhancedVideoUrl || ''} type="video/mp4" />
+                        <video
+                            className="w-full aspect-video bg-muted rounded-lg"
+                            controls
+                        >
+                            <source
+                                src={enhancedVideoUrl || ''}
+                                type="video/mp4"
+                            />
                             Your browser does not support the video tag.
                         </video>
                         <p className="text-sm text-green-600">
@@ -123,9 +138,12 @@ export default function VideoGenerator() {
                         <div className="mx-auto w-20 h-20 rounded-full bg-red-100 flex items-center justify-center">
                             <XCircle className="w-10 h-10 text-red-600" />
                         </div>
-                        <h2 className="text-2xl font-semibold text-red-600">Processing Failed</h2>
+                        <h2 className="text-2xl font-semibold text-red-600">
+                            Processing Failed
+                        </h2>
                         <p className="text-muted-foreground">
-                            Please try again or contact support if the issue persists.
+                            Please try again or contact support if the issue
+                            persists.
                         </p>
                     </div>
                 );
@@ -133,12 +151,13 @@ export default function VideoGenerator() {
                 return (
                     <div className="flex-1 p-6">
                         <div className="flex flex-col items-center justify-center h-full text-center">
-
                             <div className="space-y-4">
                                 <div className="mx-auto w-20 h-20 rounded-full bg-muted flex items-center justify-center">
                                     <Wand2 className="w-10 h-10 text-muted-foreground" />
                                 </div>
-                                <h2 className="text-2xl font-semibold">Ready to Enhance the Quality of Your Video</h2>
+                                <h2 className="text-2xl font-semibold">
+                                    Ready to Enhance the Quality of Your Video
+                                </h2>
                                 <p className="text-muted-foreground">
                                     Upload a video and enhance its quality
                                 </p>
@@ -157,7 +176,10 @@ export default function VideoGenerator() {
                     <CardContent className="p-6">
                         <Tabs defaultValue="text" className="mb-6">
                             <TabsList className="grid w-full grid-cols-1">
-                                <TabsTrigger value="text" className="flex gap-2">
+                                <TabsTrigger
+                                    value="text"
+                                    className="flex gap-2"
+                                >
                                     <Text className="w-4 h-4" />
                                     Enhance Video Quality
                                 </TabsTrigger>
@@ -166,15 +188,25 @@ export default function VideoGenerator() {
 
                         <div className="space-y-6">
                             <div>
-                                <h2 className="text-lg font-medium mb-3">Upload Image for Video Generation</h2>
+                                <h2 className="text-lg font-medium mb-3">
+                                    Upload Image for Video Generation
+                                </h2>
                                 <Card className="border-dashed">
                                     <CardContent className="flex flex-col items-center justify-center py-12 text-center">
                                         <div>
                                             <FileUploaderRegular
                                                 sourceList="local, url, camera, dropbox, gdrive"
                                                 classNameUploader="uc-light uc-red"
-                                                pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY || ''}
-                                                onFileUploadSuccess={(info) => setUploadCareCdnUrl(info.cdnUrl)}
+                                                pubkey={
+                                                    process.env
+                                                        .NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY ||
+                                                    ''
+                                                }
+                                                onFileUploadSuccess={(info) =>
+                                                    setUploadCareCdnUrl(
+                                                        info.cdnUrl
+                                                    )
+                                                }
                                             />
                                         </div>
                                     </CardContent>
@@ -183,33 +215,56 @@ export default function VideoGenerator() {
 
                             <div className="space-y-2">
                                 <h2 className="text-lg font-medium">Model</h2>
-                                <Select defaultValue={model} onValueChange={(value) => setModel(value)}>
+                                <Select
+                                    defaultValue={model}
+                                    onValueChange={(value) => setModel(value)}
+                                >
                                     <SelectTrigger>
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="RealESRGAN_x4plus">RealESRGAN_x4plus</SelectItem>
-                                        <SelectItem value="standard">Standard</SelectItem>
-                                        <SelectItem value="premium">Premium</SelectItem>
+                                        <SelectItem value="RealESRGAN_x4plus">
+                                            RealESRGAN_x4plus
+                                        </SelectItem>
+                                        <SelectItem value="standard">
+                                            Standard
+                                        </SelectItem>
+                                        <SelectItem value="premium">
+                                            Premium
+                                        </SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
                             <div className="space-y-2">
-                                <h2 className="text-lg font-medium">Resolution</h2>
-                                <Select defaultValue={resolution} onValueChange={(value) => setResolution(value)}>
+                                <h2 className="text-lg font-medium">
+                                    Resolution
+                                </h2>
+                                <Select
+                                    defaultValue={resolution}
+                                    onValueChange={(value) =>
+                                        setResolution(value)
+                                    }
+                                >
                                     <SelectTrigger>
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="FHD">FHD</SelectItem>
-                                        <SelectItem value="standard">Standard</SelectItem>
-                                        <SelectItem value="premium">Premium</SelectItem>
+                                        <SelectItem value="standard">
+                                            Standard
+                                        </SelectItem>
+                                        <SelectItem value="premium">
+                                            Premium
+                                        </SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
 
-
-                            <Button className="w-full" size="lg" onClick={() => handleUpload(uploadCareCdnUrl)}>
+                            <Button
+                                className="w-full"
+                                size="lg"
+                                onClick={() => handleUpload(uploadCareCdnUrl)}
+                            >
                                 <Wand2 className="w-4 h-4 mr-2" />
                                 Enhance Video
                             </Button>
@@ -221,5 +276,5 @@ export default function VideoGenerator() {
             {/* Right Side */}
             {renderRightSide()}
         </div>
-    )
+    );
 }

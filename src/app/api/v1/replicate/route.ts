@@ -22,10 +22,12 @@ interface ReplicatePrediction {
 }
 
 export async function POST(request: Request) {
-    try {   
+    try {
         const { videoUrl, model, resolution } = await request.json();
 
-        logger.info(`Upscaling video ${videoUrl} with resolution ${resolution} and model ${model}`);
+        logger.info(
+            `Upscaling video ${videoUrl} with resolution ${resolution} and model ${model}`
+        );
 
         if (!videoUrl || !resolution || !model) {
             logger.warn(`Video URL, resolution, and model are required`);
@@ -43,30 +45,33 @@ export async function POST(request: Request) {
         });
 
         // Start the video upscaling process with Cloudinary URL
-        logger.info(`Cloudinary Upload Completed, Starting video upscaling process with Cloudinary URL`);
+        logger.info(
+            `Cloudinary Upload Completed, Starting video upscaling process with Cloudinary URL`
+        );
 
-        const prediction = await replicate.run(
-            "lucataco/real-esrgan-video:c23768236472c41b7a121ee735c8073e29080c01b32907740cfada61bff75320",
+        const prediction = (await replicate.run(
+            'lucataco/real-esrgan-video:c23768236472c41b7a121ee735c8073e29080c01b32907740cfada61bff75320',
             {
                 input: {
-                    model: "RealESRGAN_x4plus",
-                    resolution: "FHD",
-                    video_path: cloudinaryUpload.secure_url
+                    model: 'RealESRGAN_x4plus',
+                    resolution: 'FHD',
+                    video_path: cloudinaryUpload.secure_url,
                 },
                 webhook: `${process.env.WEBHOOK_URL}/api/v1/replicate/webhook`,
-                webhook_events_filter: ["completed"]
+                webhook_events_filter: ['completed'],
             }
-        ) as ReplicatePrediction;
+        )) as ReplicatePrediction;
 
-        logger.info(`Prediction created with id ${prediction.id} and status ${prediction.status}`);
+        logger.info(
+            `Prediction created with id ${prediction.id} and status ${prediction.status}`
+        );
 
         return NextResponse.json({
             success: true,
             id: prediction.id,
             status: prediction.status,
-            cloudinaryUrl: cloudinaryUpload.secure_url
+            cloudinaryUrl: cloudinaryUpload.secure_url,
         });
-
     } catch (error) {
         logger.error(`API error: ${error}`);
         return NextResponse.json(

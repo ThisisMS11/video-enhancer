@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { FileUploaderRegular } from '@uploadcare/react-uploader/next';
 import '@uploadcare/react-uploader/core.css';
 
@@ -12,7 +12,10 @@ function VideoUploader() {
             // Create form data for Cloudinary upload
             const formData = new FormData();
             formData.append('file', blob);
-            formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || '');
+            formData.append(
+                'upload_preset',
+                process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ''
+            );
 
             // Upload to Cloudinary
             const cloudinaryResponse = await fetch(
