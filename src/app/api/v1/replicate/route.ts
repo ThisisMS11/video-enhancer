@@ -46,30 +46,33 @@ export async function POST(request: Request) {
 
         // Start the video upscaling process with Cloudinary URL
         logger.info(
-            `Cloudinary Upload Completed, Starting video upscaling process with Cloudinary URL`
+            `Cloudinary Upload Completed, Starting video upscaling process with Cloudinary URL: ${cloudinaryUpload.secure_url}`
         );
 
-        const prediction = (await replicate.run(
-            'lucataco/real-esrgan-video:c23768236472c41b7a121ee735c8073e29080c01b32907740cfada61bff75320',
-            {
-                input: {
-                    model: 'RealESRGAN_x4plus',
-                    resolution: 'FHD',
-                    video_path: cloudinaryUpload.secure_url,
-                },
-                webhook: `${process.env.WEBHOOK_URL}/api/v1/replicate/webhook`,
-                webhook_events_filter: ['completed'],
-            }
-        )) as ReplicatePrediction;
+        const input = {
+            video_path: cloudinaryUpload.secure_url,
+            resolution: 'FHD',
+            model: 'RealESRGAN_x4plus',
+        };
+
+        const prediction = await replicate.predictions.create({
+            version:
+                'c23768236472c41b7a121ee735c8073e29080c01b32907740cfada61bff75320',
+            input,
+            webhook: `${process.env.WEBHOOK_URL}/api/v1/replicate/webhook`,
+            webhook_events_filter: ['completed'],
+        });
+
+        const latest = await replicate.predictions.get(prediction.id);
 
         logger.info(
-            `Prediction created with id ${prediction.id} and status ${prediction.status}`
+            `Prediction created with id ${latest.id} and status ${latest.status}`
         );
 
         return NextResponse.json({
             success: true,
-            id: prediction.id,
-            status: prediction.status,
+            id: latest.id,
+            status: latest.status,
             cloudinaryUrl: cloudinaryUpload.secure_url,
         });
     } catch (error) {

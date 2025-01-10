@@ -37,8 +37,10 @@ export async function GET(request: Request) {
             return NextResponse.json({ status: 'processing' });
         }
 
+        logger.info(`Predicton : ${JSON.stringify(prediction)}`);
+
         logger.info(
-            `Prediction status retrieved ${id} and prediction : ${prediction.status}`
+            `Prediction status retrieved for ${id} with status : ${prediction.status}`
         );
         return NextResponse.json(prediction);
     } catch (error) {
