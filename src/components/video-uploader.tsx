@@ -11,10 +11,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Text, Upload, Wand2, XCircle, Trash2 } from 'lucide-react';
+import { Text, Upload, Wand2, XCircle, Trash2,History } from 'lucide-react';
 import { FileUploaderRegular } from '@uploadcare/react-uploader/next';
 import '@uploadcare/react-uploader/core.css';
 import { Progress } from '@/components/ui/progress';
+import { VideoHistoryModal } from '@/components/video-history-model';
 
 export default function VideoGenerator() {
     const [model, setModel] = useState<string>('RealESRGAN_x4plus');
@@ -22,13 +23,13 @@ export default function VideoGenerator() {
 
     const [predictionId, setPredictionId] = useState<string | null>(null);
     const [status, setStatus] = useState<string>('idle');
-    // 'https://replicate.delivery/yhqm/jXXxx6p34T6YE1M1vAhQd3HfW4Ubh6a98OIkdALzXS2zueDUA/tmpennu1a2nar5oftxwzhertkxi6u3w_out.mp4'
     const [enhancedVideoUrl, setEnhancedVideoUrl] = useState<string | null>(
         null
     );
     const [uploadCareCdnUrl, setUploadCareCdnUrl] = useState<string | null>(
         null
     );
+    const [historyModalOpen, setHistoryModalOpen] = useState(false);
 
     /* Get the prediction status */
     const pollPredictionStatus = async (id: string) => {
@@ -425,7 +426,7 @@ export default function VideoGenerator() {
                         </div>
 
                         {/* Settings  */}
-                        <div className="space-y-4 absolute bottom-10 w-full left-0 p-5">
+                        <div className="space-y-4 absolute bottom-1 w-full left-0 p-5">
                             <div>
                                 <h2 className="text-lg font-medium">Model</h2>
                                 <Select
@@ -477,6 +478,14 @@ export default function VideoGenerator() {
                                 <Wand2 className="w-4 h-4 mr-2" />
                                 Enhance Video
                             </Button>
+                            <Button
+                                className="w-full"
+                                size="lg"
+                                onClick={() => setHistoryModalOpen(true)}
+                            >
+                                <History className="w-4 h-4 mr-2" />
+                                View History
+                            </Button>
                         </div>
                     </CardContent>
                 </Card>
@@ -484,6 +493,11 @@ export default function VideoGenerator() {
 
             {/* Right Side */}
             {renderRightSide()}
+
+            <VideoHistoryModal 
+                open={historyModalOpen}
+                onOpenChange={setHistoryModalOpen}
+            />
         </div>
     );
 }
