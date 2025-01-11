@@ -10,7 +10,9 @@ export default function App() {
             </SignedIn>
             <SignedOut>
                 <div className="text-center space-y-4">
-                    <h1 className="text-4xl font-bold">Video Enhancement Tool</h1>
+                    <h1 className="text-4xl font-bold">
+                        Video Enhancement Tool
+                    </h1>
                     <p className="text-lg text-muted-foreground">
                         Please sign in to enhance your videos
                     </p>

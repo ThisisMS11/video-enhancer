@@ -21,7 +21,6 @@ if (!redisClient.isOpen) {
 async function CheckRedisConnection(redis: any) {
     try {
         await redis.ping();
-        logger.info(`Redis is Connected Successfully.`);
         return true;
     } catch (error: any) {
         logger.error(`Redis connection failed: ${error}`);

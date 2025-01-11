@@ -37,6 +37,12 @@ export async function POST(request: Request) {
         const cloudinaryUpload = await cloudinary.uploader.upload(videoUrl, {
             resource_type: 'video',
             folder: 'video-upscaler',
+            eager: [
+                {
+                    raw_transformation: 'vc_auto,q_auto',
+                },
+            ],
+            eager_async: true,
         });
 
         // Start the video upscaling process with Cloudinary URL
@@ -44,8 +50,12 @@ export async function POST(request: Request) {
             `Cloudinary Upload Completed, Starting video upscaling process with Cloudinary URL: ${cloudinaryUpload.secure_url}`
         );
 
+        const processUrl =
+            cloudinaryUpload.eager?.[0]?.secure_url ||
+            cloudinaryUpload.secure_url;
+
         const input = {
-            video_path: cloudinaryUpload.secure_url,
+            video_path: processUrl,
             resolution: resolution,
             model: model,
         };

@@ -6,9 +6,9 @@ import {
     SignInButton,
     SignedIn,
     SignedOut,
-    UserButton
-} from '@clerk/nextjs'
-import { Button } from "@/components/ui/button";
+    UserButton,
+} from '@clerk/nextjs';
+import { Button } from '@/components/ui/button';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -41,9 +41,7 @@ export default function RootLayout({
                     <div className="fixed top-4 right-4 z-50">
                         <SignedOut>
                             <SignInButton mode="modal">
-                                <Button variant="default">
-                                    Sign In
-                                </Button>
+                                <Button variant="default">Sign In</Button>
                             </SignInButton>
                         </SignedOut>
                         <SignedIn>
