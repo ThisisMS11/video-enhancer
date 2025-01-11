@@ -11,7 +11,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Text, Upload, Wand2, XCircle } from 'lucide-react';
+import { Text, Upload, Wand2, XCircle, Trash2 } from 'lucide-react';
 import { FileUploaderRegular } from '@uploadcare/react-uploader/next';
 import '@uploadcare/react-uploader/core.css';
 import { Progress } from '@/components/ui/progress';
@@ -21,9 +21,9 @@ export default function VideoGenerator() {
     const [resolution, setResolution] = useState<string>('FHD');
 
     const [predictionId, setPredictionId] = useState<string | null>(null);
-    const [status, setStatus] = useState<string>('idle');
+    const [status, setStatus] = useState<string>('succeeded');
     const [enhancedVideoUrl, setEnhancedVideoUrl] = useState<string | null>(
-        null
+        'https://replicate.delivery/yhqm/jXXxx6p34T6YE1M1vAhQd3HfW4Ubh6a98OIkdALzXS2zueDUA/tmpennu1a2nar5oftxwzhertkxi6u3w_out.mp4'
     );
     const [uploadCareCdnUrl, setUploadCareCdnUrl] = useState<string | null>(
         null
@@ -98,6 +98,10 @@ export default function VideoGenerator() {
         }
     };
 
+    const handleRemoveVideo = () => {
+        setUploadCareCdnUrl(null);
+    };
+
     const renderRightSide = () => {
         switch (status) {
             case 'uploading':
@@ -126,9 +130,9 @@ export default function VideoGenerator() {
                 );
             case 'succeeded':
                 return (
-                    <div className="space-y-4  w-[65%] flex flex-col  justify-center">
+                    <div className="space-y-4  w-[65%]">
                         <video
-                            className="w-full aspect-video bg-muted rounded-lg h-[80%]"
+                            className="w-full aspect-video bg-muted rounded-lg h-[100%] m-4"
                             controls
                         >
                             <source
@@ -137,9 +141,6 @@ export default function VideoGenerator() {
                             />
                             Your browser does not support the video tag.
                         </video>
-                        <p className="text-sm text-green-600">
-                            Video enhancement completed!
-                        </p>
                     </div>
                 );
             case 'failed':
@@ -179,11 +180,13 @@ export default function VideoGenerator() {
     };
 
     return (
-        <div className="flex h-[80%]  rounded-sm  p-4 w-[80%] ">
+        <div className="flex h-full rounded-sm  p-4 w-[80%]  items-center">
             {/* Left Side */}
-            <div className="flex-1 p-1 border-r w-[35%]">
-                <Card>
-                    <CardContent className="p-6">
+            <div className="flex-1 p-1 border-r w-[35%]  h-full">
+
+                <Card className='h-full '>
+
+                    <CardContent className="p-6 h-full relative">
                         <Tabs defaultValue="text" className="mb-6">
                             <TabsList className="grid w-full grid-cols-1">
                                 <TabsTrigger
@@ -195,35 +198,54 @@ export default function VideoGenerator() {
                                 </TabsTrigger>
                             </TabsList>
                         </Tabs>
-
-                        <div className="space-y-6">
+                        <div className="space-y-4 relative">
                             <div>
                                 <h2 className="text-lg font-medium mb-3">
                                     Upload Image for Video Generation
                                 </h2>
-                                <Card className="border-dashed">
-                                    <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-                                        <div>
-                                            <FileUploaderRegular
-                                                sourceList="local, url, camera, dropbox, gdrive"
-                                                classNameUploader="uc-light uc-red"
-                                                pubkey={
-                                                    process.env
-                                                        .NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY ||
-                                                    ''
-                                                }
-                                                onFileUploadSuccess={(info) =>
-                                                    setUploadCareCdnUrl(
-                                                        info.cdnUrl
-                                                    )
-                                                }
-                                            />
-                                        </div>
+                                <Card className="border-dashed h-full">
+                                    <CardContent className="flex flex-col items-center justify-center py-4 text-center">
+                                        {!uploadCareCdnUrl ? (
+                                            <div>
+                                                <FileUploaderRegular
+                                                    sourceList="local, url, camera, dropbox, gdrive"
+                                                    classNameUploader="uc-light uc-red"
+                                                    pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY || ''}
+                                                    onFileUploadSuccess={(info) => setUploadCareCdnUrl(info.cdnUrl)}
+                                                    multiple={false}
+                                                    className='h-48 flex items-center justify-center'
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="w-full space-y-4">
+                                                <div className="relative w-full aspect-video">
+                                                    <video
+                                                        className="w-full h-full rounded-lg object-cover"
+                                                        controls
+                                                        src={uploadCareCdnUrl}
+                                                    />
+                                                </div>
+                                                <div className="flex justify-center">
+                                                    <Button
+                                                        variant="destructive"
+                                                        size="sm"
+                                                        onClick={handleRemoveVideo}
+                                                        className="flex items-center gap-2 w-full "
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                        Remove Video
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        )}
                                     </CardContent>
                                 </Card>
                             </div>
-
-                            <div className="space-y-2">
+                        </div>
+                        
+                        {/* Settings  */}
+                        <div className="space-y-4 absolute bottom-10 w-full left-0 p-5">
+                            <div>
                                 <h2 className="text-lg font-medium">Model</h2>
                                 <Select
                                     defaultValue={model}
@@ -245,7 +267,7 @@ export default function VideoGenerator() {
                                     </SelectContent>
                                 </Select>
                             </div>
-                            <div className="space-y-2">
+                            <div className="space-y-1">
                                 <h2 className="text-lg font-medium">
                                     Resolution
                                 </h2>
