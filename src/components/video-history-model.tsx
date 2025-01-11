@@ -36,7 +36,10 @@ interface VideoHistoryModalProps {
     onOpenChange: (open: boolean) => void;
 }
 
-export function VideoHistoryModal({ open, onOpenChange }: VideoHistoryModalProps) {
+export function VideoHistoryModal({
+    open,
+    onOpenChange,
+}: VideoHistoryModalProps) {
     const [history, setHistory] = useState<VideoProcess[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -68,7 +71,10 @@ export function VideoHistoryModal({ open, onOpenChange }: VideoHistoryModalProps
         };
 
         return (
-            <Badge variant="outline" className={statusStyles[status as keyof typeof statusStyles]}>
+            <Badge
+                variant="outline"
+                className={statusStyles[status as keyof typeof statusStyles]}
+            >
                 {status}
             </Badge>
         );
@@ -106,7 +112,10 @@ export function VideoHistoryModal({ open, onOpenChange }: VideoHistoryModalProps
                             {history.map((process) => (
                                 <TableRow key={process._id}>
                                     <TableCell>
-                                        {format(new Date(process.created_at), 'PPp')}
+                                        {format(
+                                            new Date(process.created_at),
+                                            'PPp'
+                                        )}
                                     </TableCell>
                                     <TableCell>{process.model}</TableCell>
                                     <TableCell>{process.resolution}</TableCell>
@@ -119,7 +128,9 @@ export function VideoHistoryModal({ open, onOpenChange }: VideoHistoryModalProps
                                     <TableCell>
                                         <div className="flex space-x-2">
                                             <a
-                                                href={process.original_video_url}
+                                                href={
+                                                    process.original_video_url
+                                                }
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="text-blue-500 hover:text-blue-700"
@@ -131,7 +142,9 @@ export function VideoHistoryModal({ open, onOpenChange }: VideoHistoryModalProps
                                     <TableCell>
                                         <div className="flex space-x-2">
                                             <a
-                                                href={process.enhanced_video_url}
+                                                href={
+                                                    process.enhanced_video_url
+                                                }
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="text-blue-500 hover:text-blue-700"

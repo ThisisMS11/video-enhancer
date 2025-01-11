@@ -11,7 +11,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Text, Upload, Wand2, XCircle, Trash2,History } from 'lucide-react';
+import { Text, Upload, Wand2, XCircle, Trash2, History } from 'lucide-react';
 import { FileUploaderRegular } from '@uploadcare/react-uploader/next';
 import '@uploadcare/react-uploader/core.css';
 import { Progress } from '@/components/ui/progress';
@@ -494,7 +494,7 @@ export default function VideoGenerator() {
             {/* Right Side */}
             {renderRightSide()}
 
-            <VideoHistoryModal 
+            <VideoHistoryModal
                 open={historyModalOpen}
                 onOpenChange={setHistoryModalOpen}
             />
