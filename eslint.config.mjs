@@ -13,7 +13,10 @@ const eslintConfig = [
     ...compat.extends('next/core-web-vitals', 'next/typescript'),
     {
         files: ['**/*.{js,jsx,ts,tsx}'],
-        plugins: ['@typescript-eslint', 'unused-imports'],
+        plugins: {
+            '@typescript-eslint': (await import('@typescript-eslint/eslint-plugin')).default,
+            'unused-imports': (await import('eslint-plugin-unused-imports')).default
+        },
         rules: {
             // Suppress 'prefer-const' warnings
             'prefer-const': 'off',
@@ -24,19 +27,8 @@ const eslintConfig = [
             // Warn about unused imports
             'unused-imports/no-unused-imports': 'warn',
 
-            // Warn about unused vars and allow underscore-prefixed ones
+            // Warn about unused vars and allow underscore-prefixed ones    
             '@typescript-eslint/no-unused-vars': [
-                'warn',
-                {
-                    vars: 'all',
-                    varsIgnorePattern: '^_',
-                    args: 'after-used',
-                    argsIgnorePattern: '^_',
-                },
-            ],
-
-            // Allow unused variables starting with '_'
-            'unused-imports/no-unused-vars': [
                 'warn',
                 {
                     vars: 'all',

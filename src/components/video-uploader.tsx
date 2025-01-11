@@ -21,7 +21,7 @@ export default function VideoGenerator() {
     const [model, setModel] = useState<string>('RealESRGAN_x4plus');
     const [resolution, setResolution] = useState<string>('FHD');
 
-    const [predictionId, setPredictionId] = useState<string | null>(null);
+    const [_predictionId, setPredictionId] = useState<string | null>(null);
     const [status, setStatus] = useState<string>('idle');
     const [enhancedVideoUrl, setEnhancedVideoUrl] = useState<string | null>(
         null
@@ -57,7 +57,7 @@ export default function VideoGenerator() {
 
                 default:
                     setStatus('processing');
-                    setTimeout(() => pollPredictionStatus(id), 1000);
+                    setTimeout(() => pollPredictionStatus(id), 3000);
             }
         } catch (error) {
             console.error('Polling error:', error);
@@ -68,9 +68,9 @@ export default function VideoGenerator() {
     /* if video is successfully processed */
     const handlePredictionSuccess = async (data: any, outputUrl: string) => {
         setEnhancedVideoUrl(outputUrl);
+        setStatus('succeeded');
 
         const cloudinaryData = await uploadToCloudinary(outputUrl);
-
         const {
             original_file,
             completed_at,
@@ -91,8 +91,6 @@ export default function VideoGenerator() {
             resolution: resolution,
             predict_time: predict_time,
         });
-
-        setStatus('succeeded');
     };
 
     /* if video is not processed */
@@ -474,9 +472,12 @@ export default function VideoGenerator() {
                                 className="w-full"
                                 size="lg"
                                 onClick={() => handleUpload(uploadCareCdnUrl)}
+                                disabled={status === 'processing' || status === 'uploading'}
                             >
                                 <Wand2 className="w-4 h-4 mr-2" />
-                                Enhance Video
+                                {status === 'processing' ? 'Enhancing Video...' :
+                                    status === 'uploading' ? 'Uploading Video...' :
+                                        'Enhance Video'}
                             </Button>
                             <Button
                                 className="w-full"

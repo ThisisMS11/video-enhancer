@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
         try {
             body = await request.json();
         } catch (e) {
-            logger.warn('Invalid JSON in request body');
+            logger.warn(`Invalid JSON in request body ${JSON.stringify(e)}`);
             return NextResponse.json(
                 { error: 'Invalid JSON in request body' },
                 { status: 400 }
@@ -167,7 +167,7 @@ export async function POST(request: NextRequest) {
 }
 
 /* to get the information of all the video processes of a user */
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
         // Authenticate user
         const user = await currentUser();
@@ -192,7 +192,7 @@ export async function GET(request: NextRequest) {
         const client = await clientPromise;
         if (!client) {
             logger.error('Failed to connect to MongoDB client');
-            return NextResponse.json(
+            return NextResponse.json(   
                 { error: 'Database connection failed' },
                 { status: 500 }
             );

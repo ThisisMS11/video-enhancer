@@ -5,7 +5,7 @@ import { createLoggerWithLabel } from '@/app/api/utils/logger';
 const logger = createLoggerWithLabel('WEBHOOK_REPLICATE');
 
 // Define valid status types
-type PredictionStatus = 'succeeded' | 'processing' | 'failed';
+// type PredictionStatus = 'succeeded' | 'processing' | 'failed';
 
 async function storePredictionData(predictionId: string, payload: any) {
     try {
