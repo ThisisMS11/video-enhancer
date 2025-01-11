@@ -1,0 +1,341 @@
+{
+  completed_at: '2025-01-10T20:24:55.50935814Z',
+  created_at: '2025-01-10T20:07:22.023Z',
+  data_removed: false,
+  error: null,
+  id: 'fa1ag78rmxrj60cma7ab7p1s2c',
+  input: {
+    model: 'RealESRGAN_x4plus',
+    resolution: 'FHD',
+    video_path: 'https://res.cloudinary.com/cloudinarymohit/video/upload/v1736539637/video-upscaler/kouqiokgtnmv0guaa5zj.mp4'        
+  },
+  logs: 'Upscaling from 1920x1080 to 1920x1080, crop_to_fit=True\n' +
+    "/root/.pyenv/versions/3.10.13/lib/python3.10/site-packages/torchvision/transforms/functional_tensor.py:5: UserWarning: The torchvision.transforms.functional_tensor module is deprecated in 0.15 and will be **removed in 0.17**. Please don't rely on it. You probably just need to use APIs in torchvision.transforms.functional or in torchvision.transforms.v2.functional.\n" +
+    'warnings.warn(\n' +
+    'Downloading: "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth" to /Real-ESRGAN/weights/RealESRGAN_x4plus.pth\n' +
+    '  0%|          | 0.00/63.9M [00:00<?, ?B/s]\n' +
+    ' 43%|████▎     | 27.5M/63.9M [00:00<00:00, 289MB/s]\n' +
+    '100%|██████████| 63.9M/63.9M [00:00<00:00, 346MB/s]\n' +
+    'inference:   0%|          | 0/425 [00:00<?, ?frame/s]\n' +
+    'inference:   0%|          | 1/425 [00:02<18:12,  2.58s/frame]\n' +
+    'inference:   0%|          | 2/425 [00:05<17:35,  2.49s/frame]\n' +
+    'inference:   1%|          | 3/425 [00:07<17:22,  2.47s/frame]\n' +
+    'inference:   1%|          | 4/425 [00:09<17:13,  2.46s/frame]\n' +
+    'inference:   1%|          | 5/425 [00:12<17:08,  2.45s/frame]\n' +
+    'inference:   1%|▏         | 6/425 [00:14<17:02,  2.44s/frame]\n' +
+    'inference:   2%|▏         | 7/425 [00:17<17:02,  2.45s/frame]\n' +
+    'inference:   2%|▏         | 8/425 [00:19<16:57,  2.44s/frame]\n' +
+    'inference:   2%|▏         | 9/425 [00:22<16:55,  2.44s/frame]\n' +
+    'inference:   2%|▏         | 10/425 [00:24<16:52,  2.44s/frame]\n' +
+    'inference:   3%|▎         | 11/425 [00:26<16:50,  2.44s/frame]\n' +
+    'inference:   3%|▎         | 12/425 [00:29<16:47,  2.44s/frame]\n' +
+    'inference:   3%|▎         | 13/425 [00:31<16:45,  2.44s/frame]\n' +
+    'inference:   3%|▎         | 14/425 [00:34<16:41,  2.44s/frame]\n' +
+    'inference:   4%|▎         | 15/425 [00:36<16:39,  2.44s/frame]\n' +
+    'inference:   4%|▍         | 16/425 [00:39<16:36,  2.44s/frame]\n' +
+    'inference:   4%|▍         | 17/425 [00:41<16:33,  2.43s/frame]\n' +
+    'inference:   4%|▍         | 18/425 [00:44<16:31,  2.44s/frame]\n' +
+    'inference:   4%|▍         | 19/425 [00:46<16:28,  2.44s/frame]\n' +
+    'inference:   5%|▍         | 20/425 [00:48<16:25,  2.43s/frame]\n' +
+    'inference:   5%|▍         | 21/425 [00:51<16:24,  2.44s/frame]\n' +
+    'inference:   5%|▌         | 22/425 [00:53<16:21,  2.44s/frame]\n' +
+    'inference:   5%|▌         | 23/425 [00:56<16:18,  2.43s/frame]\n' +
+    'inference:   6%|▌         | 24/425 [00:58<16:15,  2.43s/frame]\n' +
+    'inference:   6%|▌         | 25/425 [01:01<16:14,  2.44s/frame]\n' +
+    'inference:   6%|▌         | 26/425 [01:03<16:11,  2.43s/frame]\n' +
+    'inference:   6%|▋         | 27/425 [01:05<16:12,  2.44s/frame]\n' +
+    'inference:   7%|▋         | 28/425 [01:08<16:13,  2.45s/frame]\n' +
+    'inference:   7%|▋         | 29/425 [01:10<16:13,  2.46s/frame]\n' +
+    'inference:   7%|▋         | 30/425 [01:13<16:10,  2.46s/frame]\n' +
+    'inference:   7%|▋         | 31/425 [01:15<16:07,  2.46s/frame]\n' +
+    'inference:   8%|▊         | 32/425 [01:18<16:05,  2.46s/frame]\n' +
+    'inference:   8%|▊         | 33/425 [01:20<16:02,  2.46s/frame]\n' +
+    'inference:   8%|▊         | 34/425 [01:23<16:02,  2.46s/frame]\n' +
+    'inference:   8%|▊         | 35/425 [01:25<16:00,  2.46s/frame]\n' +
+    'inference:   8%|▊         | 36/425 [01:28<15:57,  2.46s/frame]\n' +
+    'inference:   9%|▊         | 37/425 [01:30<15:54,  2.46s/frame]\n' +
+    'inference:   9%|▉         | 38/425 [01:33<15:52,  2.46s/frame]\n' +
+    'inference:   9%|▉         | 39/425 [01:35<15:50,  2.46s/frame]\n' +
+    'inference:   9%|▉         | 40/425 [01:37<15:47,  2.46s/frame]\n' +
+    'inference:  10%|▉         | 41/425 [01:40<15:44,  2.46s/frame]\n' +
+    'inference:  10%|▉         | 42/425 [01:42<15:41,  2.46s/frame]\n' +
+    'inference:  10%|█         | 43/425 [01:45<15:39,  2.46s/frame]\n' +
+    'inference:  10%|█         | 44/425 [01:47<15:38,  2.46s/frame]\n' +
+    'inference:  11%|█         | 45/425 [01:50<15:36,  2.46s/frame]\n' +
+    'inference:  11%|█         | 46/425 [01:52<15:33,  2.46s/frame]\n' +
+    'inference:  11%|█         | 47/425 [01:55<15:30,  2.46s/frame]\n' +
+    'inference:  11%|█▏        | 48/425 [01:57<15:27,  2.46s/frame]\n' +
+    'inference:  12%|█▏        | 49/425 [02:00<15:25,  2.46s/frame]\n' +
+    'inference:  12%|█▏        | 50/425 [02:02<15:21,  2.46s/frame]\n' +
+    'inference:  12%|█▏        | 51/425 [02:05<15:18,  2.45s/frame]\n' +
+    'inference:  12%|█▏        | 52/425 [02:07<15:15,  2.45s/frame]\n' +
+    'inference:  12%|█▏        | 53/425 [02:09<15:13,  2.46s/frame]\n' +
+    'inference:  13%|█▎        | 54/425 [02:12<15:10,  2.45s/frame]\n' +
+    'inference:  13%|█▎        | 55/425 [02:14<15:07,  2.45s/frame]\n' +
+    'inference:  13%|█▎        | 56/425 [02:17<15:06,  2.46s/frame]\n' +
+    'inference:  13%|█▎        | 57/425 [02:19<15:07,  2.46s/frame]\n' +
+    'inference:  14%|█▎        | 58/425 [02:22<15:07,  2.47s/frame]\n' +
+    'inference:  14%|█▍        | 59/425 [02:24<15:02,  2.47s/frame]\n' +
+    'inference:  14%|█▍        | 60/425 [02:27<14:59,  2.46s/frame]\n' +
+    'inference:  14%|█▍        | 61/425 [02:29<14:55,  2.46s/frame]\n' +
+    'inference:  15%|█▍        | 62/425 [02:32<14:52,  2.46s/frame]\n' +
+    'inference:  15%|█▍        | 63/425 [02:34<14:48,  2.45s/frame]\n' +
+    'inference:  15%|█▌        | 64/425 [02:36<14:46,  2.46s/frame]\n' +
+    'inference:  15%|█▌        | 65/425 [02:39<14:43,  2.45s/frame]\n' +
+    'inference:  16%|█▌        | 66/425 [02:41<14:39,  2.45s/frame]\n' +
+    'inference:  16%|█▌        | 67/425 [02:44<14:35,  2.45s/frame]\n' +
+    'inference:  16%|█▌        | 68/425 [02:46<14:31,  2.44s/frame]\n' +
+    'inference:  16%|█▌        | 69/425 [02:49<14:28,  2.44s/frame]\n' +
+    'inference:  16%|█▋        | 70/425 [02:51<14:25,  2.44s/frame]\n' +
+    'inference:  17%|█▋        | 71/425 [02:54<14:23,  2.44s/frame]\n' +
+    'inference:  17%|█▋        | 72/425 [02:56<14:20,  2.44s/frame]\n' +
+    'inference:  17%|█▋        | 73/425 [02:58<14:17,  2.44s/frame]\n' +
+    'inference:  17%|█▋        | 74/425 [03:01<14:14,  2.44s/frame]\n' +
+    'inference:  18%|█▊        | 75/425 [03:03<14:11,  2.43s/frame]\n' +
+    'inference:  18%|█▊        | 76/425 [03:06<14:09,  2.43s/frame]\n' +
+    'inference:  18%|█▊        | 77/425 [03:08<14:07,  2.44s/frame]\n' +
+    'inference:  18%|█▊        | 78/425 [03:11<14:05,  2.44s/frame]\n' +
+    'inference:  19%|█▊        | 79/425 [03:13<14:04,  2.44s/frame]\n' +
+    'inference:  19%|█▉        | 80/425 [03:15<14:01,  2.44s/frame]\n' +
+    'inference:  19%|█▉        | 81/425 [03:18<13:59,  2.44s/frame]\n' +
+    'inference:  19%|█▉        | 82/425 [03:20<13:56,  2.44s/frame]\n' +
+    'inference:  20%|█▉        | 83/425 [03:23<13:53,  2.44s/frame]\n' +
+    'inference:  20%|█▉        | 84/425 [03:25<13:51,  2.44s/frame]\n' +
+    'inference:  20%|██        | 85/425 [03:28<13:48,  2.44s/frame]\n' +
+    'inference:  20%|██        | 86/425 [03:30<13:47,  2.44s/frame]\n' +
+    'inference:  20%|██        | 87/425 [03:33<13:44,  2.44s/frame]\n' +
+    'inference:  21%|██        | 88/425 [03:35<13:42,  2.44s/frame]\n' +
+    'inference:  21%|██        | 89/425 [03:37<13:40,  2.44s/frame]\n' +
+    'inference:  21%|██        | 90/425 [03:40<13:38,  2.44s/frame]\n' +
+    'inference:  21%|██▏       | 91/425 [03:42<13:35,  2.44s/frame]\n' +
+    'inference:  22%|██▏       | 92/425 [03:45<13:32,  2.44s/frame]\n' +
+    'inference:  22%|██▏       | 93/425 [03:47<13:29,  2.44s/frame]\n' +
+    'inference:  22%|██▏       | 94/425 [03:50<13:27,  2.44s/frame]\n' +
+    'inference:  22%|██▏       | 95/425 [03:52<13:25,  2.44s/frame]\n' +
+    'inference:  23%|██▎       | 96/425 [03:55<13:23,  2.44s/frame]\n' +
+    'inference:  23%|██▎       | 97/425 [03:57<13:21,  2.44s/frame]\n' +
+    'inference:  23%|██▎       | 98/425 [03:59<13:18,  2.44s/frame]\n' +
+    'inference:  23%|██▎       | 99/425 [04:02<13:16,  2.44s/frame]\n' +
+    'inference:  24%|██▎       | 100/425 [04:04<13:13,  2.44s/frame]\n' +
+    'inference:  24%|██▍       | 101/425 [04:07<13:12,  2.45s/frame]\n' +
+    'inference:  24%|██▍       | 102/425 [04:09<13:09,  2.44s/frame]\n' +
+    'inference:  24%|██▍       | 103/425 [04:12<13:07,  2.45s/frame]\n' +
+    'inference:  24%|██▍       | 104/425 [04:14<13:04,  2.44s/frame]\n' +
+    'inference:  25%|██▍       | 105/425 [04:17<13:02,  2.44s/frame]\n' +
+    'inference:  25%|██▍       | 106/425 [04:19<12:59,  2.44s/frame]\n' +
+    'inference:  25%|██▌       | 107/425 [04:21<12:56,  2.44s/frame]\n' +
+    'inference:  25%|██▌       | 108/425 [04:24<12:54,  2.44s/frame]\n' +
+    'inference:  26%|██▌       | 109/425 [04:26<12:53,  2.45s/frame]\n' +
+    'inference:  26%|██▌       | 110/425 [04:29<12:49,  2.44s/frame]\n' +
+    'inference:  26%|██▌       | 111/425 [04:31<12:47,  2.44s/frame]\n' +
+    'inference:  26%|██▋       | 112/425 [04:34<12:44,  2.44s/frame]\n' +
+    'inference:  27%|██▋       | 113/425 [04:36<12:43,  2.45s/frame]\n' +
+    'inference:  27%|██▋       | 114/425 [04:39<12:39,  2.44s/frame]\n' +
+    'inference:  27%|██▋       | 115/425 [04:41<12:37,  2.44s/frame]\n' +
+    'inference:  27%|██▋       | 116/425 [04:43<12:34,  2.44s/frame]\n' +
+    'inference:  28%|██▊       | 117/425 [04:46<12:33,  2.45s/frame]\n' +
+    'inference:  28%|██▊       | 118/425 [04:48<12:30,  2.44s/frame]\n' +
+    'inference:  28%|██▊       | 119/425 [04:51<12:27,  2.44s/frame]\n' +
+    'inference:  28%|██▊       | 120/425 [04:53<12:24,  2.44s/frame]\n' +
+    'inference:  28%|██▊       | 121/425 [04:56<12:22,  2.44s/frame]\n' +
+    'inference:  29%|██▊       | 122/425 [04:58<12:19,  2.44s/frame]\n' +
+    'inference:  29%|██▉       | 123/425 [05:00<12:17,  2.44s/frame]\n' +
+    'inference:  29%|██▉       | 124/425 [05:03<12:14,  2.44s/frame]\n' +
+    'inference:  29%|██▉       | 125/425 [05:05<12:12,  2.44s/frame]\n' +
+    'inference:  30%|██▉       | 126/425 [05:08<12:10,  2.44s/frame]\n' +
+    'inference:  30%|██▉       | 127/425 [05:10<12:07,  2.44s/frame]\n' +
+    'inference:  30%|███       | 128/425 [05:13<12:05,  2.44s/frame]\n' +
+    'inference:  30%|███       | 129/425 [05:15<12:02,  2.44s/frame]\n' +
+    'inference:  31%|███       | 130/425 [05:18<12:01,  2.45s/frame]\n' +
+    'inference:  31%|███       | 131/425 [05:20<11:58,  2.44s/frame]\n' +
+    'inference:  31%|███       | 132/425 [05:22<11:56,  2.44s/frame]\n' +
+    'inference:  31%|███▏      | 133/425 [05:25<11:53,  2.44s/frame]\n' +
+    'inference:  32%|███▏      | 134/425 [05:27<11:50,  2.44s/frame]\n' +
+    'inference:  32%|███▏      | 135/425 [05:30<11:49,  2.45s/frame]\n' +
+    'inference:  32%|███▏      | 136/425 [05:32<11:45,  2.44s/frame]\n' +
+    'inference:  32%|███▏      | 137/425 [05:35<11:43,  2.44s/frame]\n' +
+    'inference:  32%|███▏      | 138/425 [05:37<11:40,  2.44s/frame]\n' +
+    'inference:  33%|███▎      | 139/425 [05:40<11:38,  2.44s/frame]\n' +
+    'inference:  33%|███▎      | 140/425 [05:42<11:36,  2.45s/frame]\n' +
+    'inference:  33%|███▎      | 141/425 [05:44<11:34,  2.45s/frame]\n' +
+    'inference:  33%|███▎      | 142/425 [05:47<11:31,  2.44s/frame]\n' +
+    'inference:  34%|███▎      | 143/425 [05:49<11:29,  2.44s/frame]\n' +
+    'inference:  34%|███▍      | 144/425 [05:52<11:28,  2.45s/frame]\n' +
+    'inference:  34%|███▍      | 145/425 [05:54<11:25,  2.45s/frame]\n' +
+    'inference:  34%|███▍      | 146/425 [05:5'... 18250 more characters,
+  metrics: { predict_time: 1053.473148286 },
+  model: 'lucataco/real-esrgan-video',
+  output: 'https://replicate.delivery/yhqm/FlVnsqk2Zh5BLZOHe78HFxDP7XcQ6dDemK31VeT2XTovgmHoA/tmpmt3e8nh0kouqiokgtnmv0guaa5zj_out.mp4',
+  started_at: '2025-01-10T20:07:22.036209853Z',
+  status: 'succeeded',
+  urls: {
+    cancel: 'https://api.replicate.com/v1/predictions/fa1ag78rmxrj60cma7ab7p1s2c/cancel',
+    get: 'https://api.replicate.com/v1/predictions/fa1ag78rmxrj60cma7ab7p1s2c',
+    stream: 'https://stream.replicate.com/v1/files/qoxq-yaznah3jd7rihubbaj6ggn75yyijl3hobq4hue2ntldnucijzpta'
+  },
+  version: 'c23768236472c41b7a121ee735c8073e29080c01b32907740cfada61bff75320',
+  webhook: 'https://7c5c-27-56-235-194.ngrok-free.app/api/v1/replicate/webhook',
+  webhook_events_filter: [ 'start', 'output', 'logs', 'completed' ]
+}
+
+
+
+
+
+
+
+
+
+
+// failed prediciton 
+
+{
+  completed_at: '2025-01-10T20:46:22.98554077Z',
+  created_at: '2025-01-10T20:46:19.072Z',
+  data_removed: false,
+  error: 'Cog: Got error trying to upload output files',
+  id: 'pa7qmmp1r1rj60cma7vr3cxsrc',
+  input: {
+    model: 'RealESRGAN_x4plus',
+    resolution: 'FHD',
+    video_path: 'https://res.cloudinary.com/cloudinarymohit/video/upload/v1736541977/video-upscaler/smqheaufepvncts0nd2e.mp4'    
+  },
+  logs: 'Upscaling from 640x360 to 1920x1080, crop_to_fit=True\n' +
+    "/root/.pyenv/versions/3.10.13/lib/python3.10/site-packages/torchvision/transforms/functional_tensor.py:5: UserWarning: The torchvision.transforms.functional_tensor module is deprecated in 0.15 and will be **removed in 0.17**. Please don't rely on it. You probably just need to use APIs in torchvision.transforms.functional or in torchvision.transforms.v2.functional.\n" +
+    'warnings.warn(\n' +
+    'Traceback (most recent call last):\n' +
+    'File "/Real-ESRGAN/inference_realesrgan_video.py", line 398, in <module>\n' +
+    'main()\n' +
+    'File "/Real-ESRGAN/inference_realesrgan_video.py", line 390, in main\n' +
+    'run(args)\n' +
+    'File "/Real-ESRGAN/inference_realesrgan_video.py", line 292, in run\n' +
+    'inference_video(args, video_save_path)\n' +
+    'File "/Real-ESRGAN/inference_realesrgan_video.py", line 249, in inference_video\n' +
+    'reader = Reader(args, total_workers, worker_idx)\n' +
+    'File "/Real-ESRGAN/inference_realesrgan_video.py", line 72, in __init__\n' +
+    'meta = get_video_meta_info(video_path)\n' +
+    'File "/Real-ESRGAN/inference_realesrgan_video.py", line 35, in get_video_meta_info\n' +
+    "ret['nb_frames'] = int(video_streams[0]['nb_frames'])\n" +
+    "KeyError: 'nb_frames'\n" +
+    'av_interleaved_write_frame(): Broken pipe\n' +
+    'Error writing trailer of pipe:: Broken pipe\n' +
+    '/src/ouput/tmpale0marlsmqheaufepvncts0nd2e_out.mp4: No such file or directory\n' +
+    'Cropping to fit done..\n' +
+    'Upscaled video saved to: /src/ouput/tmpale0marlsmqheaufepvncts0nd2e_upscaled_1920_1080.mp4\n',
+  metrics: { predict_time: 3.902889511 },
+  model: 'lucataco/real-esrgan-video',
+  output: null,
+  started_at: '2025-01-10T20:46:19.082651347Z',
+  status: 'failed',
+  urls: {
+    cancel: 'https://api.replicate.com/v1/predictions/pa7qmmp1r1rj60cma7vr3cxsrc/cancel',
+    get: 'https://api.replicate.com/v1/predictions/pa7qmmp1r1rj60cma7vr3cxsrc',
+    stream: 'https://stream.replicate.com/v1/files/qoxq-bhbfqddz2acywtytu57ukdlenzokrigio6fvei6kwrlxcrhjtftq'
+  },
+  version: 'c23768236472c41b7a121ee735c8073e29080c01b32907740cfada61bff75320',
+  webhook: 'https://7c5c-27-56-235-194.ngrok-free.app/api/v1/replicate/webhook',
+  webhook_events_filter: [ 'start', 'output', 'completed' ]
+}
+
+
+
+
+
+
+// logs
+2025-01-10T20:55:40.840Z [UPSCALE_REPLICATE] info: Upscaling video https://ucarecdn.com/5de2c1ad-2a44-4d3f-8567-48a3b03ba1c1/ with resolution FHD and model RealESRGAN_x4plus
+2025-01-10T20:55:40.842Z [UPSCALE_REPLICATE] info: Uploading video to Cloudinary
+2025-01-10T20:55:43.156Z [UPSCALE_REPLICATE] info: Cloudinary Upload Completed, Starting video upscaling process with Cloudinary URL: https://res.cloudinary.com/cloudinarymohit/video/upload/v1736542544/video-upscaler/hinbggjvvatdejeh3dgn.mp4
+2025-01-10T20:55:45.708Z [UPSCALE_REPLICATE] info: Prediction created with id rjcfjsbbghrj00cma8081sr4mm and status starting
+2025-01-10T20:55:47.249Z [WEBHOOK_REPLICATE] info: Webhook received for prediction rjcfjsbbghrj00cma8081sr4mm with status processing
+2025-01-10T20:56:52.939Z [WEBHOOK_REPLICATE] info: Webhook received for prediction rjcfjsbbghrj00cma8081sr4mm with status succeeded
+2025-01-10T20:58:12.539Z [WEBHOOK_REPLICATE] info: Webhook received for prediction rjcfjsbbghrj00cma8081sr4mm with status succeeded
+2025-01-10T20:58:17.723Z [Redis] error: Failed to connect to Redis: Error: Connection timeout
+2025-01-10T20:59:26.656Z [WEBHOOK_REPLICATE] info: Webhook received for prediction pa7qmmp1r1rj60cma7vr3cxsrc with status failed
+2025-01-10T20:59:40.171Z [WEBHOOK_REPLICATE] info: Webhook received for prediction rjcfjsbbghrj00cma8081sr4mm with status succeeded
+2025-01-10T21:01:09.209Z [WEBHOOK_REPLICATE] info: Webhook received for prediction rjcfjsbbghrj00cma8081sr4mm with status succeeded
+2025-01-10T21:01:41.254Z [UPSCALE_REPLICATE] info: Upscaling video https://ucarecdn.com/3f6fc1ca-e5ac-4140-a009-ba7ebccc7ad1/ with resolution FHD and model RealESRGAN_x4plus
+2025-01-10T21:01:41.256Z [UPSCALE_REPLICATE] info: Uploading video to Cloudinary
+2025-01-10T21:01:44.867Z [UPSCALE_REPLICATE] info: Cloudinary Upload Completed, Starting video upscaling process with Cloudinary URL: https://res.cloudinary.com/cloudinarymohit/video/upload/v1736542904/video-upscaler/drj0cde1xgedxlpm5tqu.mp4
+2025-01-10T21:01:46.902Z [WEBHOOK_REPLICATE] info: Webhook received for prediction h8ryw1qfsxrj60cma82shqxn80 with status processing
+2025-01-10T21:01:47.531Z [UPSCALE_REPLICATE] info: Prediction created with id h8ryw1qfsxrj60cma82shqxn80 and status processing
+
+
+// nice logs
+2025-01-11T06:38:10.473Z [UPSCALE_REPLICATE] info: Upscaling video https://ucarecdn.com/766f9e2e-13f7-4744-b3ea-285f68c81192/ with resolution FHD and model RealESRGAN_x4plus
+2025-01-11T06:38:10.476Z [UPSCALE_REPLICATE] info: Uploading video to Cloudinary
+2025-01-11T06:38:12.921Z [UPSCALE_REPLICATE] info: Cloudinary Upload Completed, Starting video upscaling process with Cloudinary URL: https://res.cloudinary.com/cloudinarymohit/video/upload/v1736577495/video-upscaler/vtkzg8rbk1znxwmj5o0j.mp4
+2025-01-11T06:38:15.846Z [UPSCALE_REPLICATE] info: Prediction created with id fh63g2xr1drj00cmagar1268wm and status starting
+2025-01-11T06:38:18.653Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:18.655Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:18.959Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:20.904Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:20.905Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:21.211Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:22.951Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:22.952Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:23.262Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:26.131Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:26.133Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:26.439Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:28.072Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:28.074Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:28.382Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:29.915Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:29.916Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:30.223Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:31.758Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:31.758Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:32.066Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:33.705Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:33.706Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:34.012Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:35.547Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:35.548Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:35.861Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:37.392Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:37.392Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:37.697Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:39.234Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:39.235Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:39.542Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:41.077Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:41.078Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:41.385Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:43.023Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:43.024Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:43.330Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:44.866Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:44.867Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:45.173Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:46.709Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:46.710Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:47.019Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:48.660Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:48.661Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:48.962Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:50.601Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:50.602Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:50.909Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:52.430Z [WEBHOOK_REPLICATE] info: Webhook request received
+2025-01-11T06:38:52.434Z [WEBHOOK_REPLICATE] info: Parsed payload: {"created_at":"2025-01-11T06:38:17.099Z","data_removed":false,"error":null,"id":"fh63g2xr1drj00cmagar1268wm","input":{"model":"RealESRGAN_x4plus","resolution":"FHD","video_path":"https://res.cloudinary.com/cloudinarymohit/video/upload/v1736577495/video-upscaler/vtkzg8rbk1znxwmj5o0j.mp4"},"logs":"","model":"lucataco/real-esrgan-video","output":null,"started_at":"2025-01-11T06:38:54.119175412Z","status":"processing","urls":{"cancel":"https://api.replicate.com/v1/predictions/fh63g2xr1drj00cmagar1268wm/cancel","get":"https://api.replicate.com/v1/predictions/fh63g2xr1drj00cmagar1268wm","stream":"https://stream.replicate.com/v1/files/qoxq-wsjsjgzykydianxq5lvntwb5amjcp7seahbna4r4p3yci3stzvwq"},"version":"c23768236472c41b7a121ee735c8073e29080c01b32907740cfada61bff75320","webhook":"https://2fb3-14-139-241-220.ngrok-free.app/api/v1/replicate/webhook","webhook_events_filter":["start","output","completed"]}
+2025-01-11T06:38:52.436Z [WEBHOOK_REPLICATE] info: Webhook received for prediction fh63g2xr1drj00cmagar1268wm with status processing
+2025-01-11T06:38:52.445Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:52.446Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:52.751Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:52.753Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:52.755Z [WEBHOOK_REPLICATE] error: Webhook error: TypeError: Invalid argument type
+2025-01-11T06:38:54.287Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:54.288Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:54.595Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:56.130Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:56.130Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:56.438Z [REPLICATE_PREDICTION] info: Predicton : {}
+2025-01-11T06:38:56.459Z [WEBHOOK_REPLICATE] info: Webhook request received
+2025-01-11T06:38:56.462Z [WEBHOOK_REPLICATE] info: Parsed payload: {"completed_at":"2025-01-11T06:38:58.724736248Z","created_at":"2025-01-11T06:38:17.099Z","data_removed":false,"error":"Cog: Got error trying to upload output files","id":"fh63g2xr1drj00cmagar1268wm","input":{"model":"RealESRGAN_x4plus","resolution":"FHD","video_path":"https://res.cloudinary.com/cloudinarymohit/video/upload/v1736577495/video-upscaler/vtkzg8rbk1znxwmj5o0j.mp4"},"logs":"Upscaling from 640x360 to 1920x1080, crop_to_fit=True\n/root/.pyenv/versions/3.10.13/lib/python3.10/site-packages/torchvision/transforms/functional_tensor.py:5: UserWarning: The torchvision.transforms.functional_tensor module is deprecated in 0.15 and will be **removed in 0.17**. Please don't rely on it. You probably just need to use APIs in torchvision.transforms.functional or in torchvision.transforms.v2.functional.\nwarnings.warn(\nDownloading: \"https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth\" to /Real-ESRGAN/weights/RealESRGAN_x4plus.pth\n  0%|          | 0.00/63.9M [00:00<?, ?B/s]\n 36%|███▋      | 23.3M/63.9M [00:00<00:00, 245MB/s]\n 95%|█████████▍| 60.6M/63.9M [00:00<00:00, 331MB/s]\n100%|██████████| 63.9M/63.9M [00:00<00:00, 322MB/s]\nTraceback (most recent call last):\nFile \"/Real-ESRGAN/inference_realesrgan_video.py\", line 398, in <module>\nmain()\nFile \"/Real-ESRGAN/inference_realesrgan_video.py\", line 390, in main\nrun(args)\nFile \"/Real-ESRGAN/inference_realesrgan_video.py\", line 292, in run\ninference_video(args, video_save_path)\nFile \"/Real-ESRGAN/inference_realesrgan_video.py\", line 249, in inference_video\nreader = Reader(args, total_workers, worker_idx)\nFile \"/Real-ESRGAN/inference_realesrgan_video.py\", line 72, in __init__\nmeta = get_video_meta_info(video_path)\nFile \"/Real-ESRGAN/inference_realesrgan_video.py\", line 35, in get_video_meta_info\nret['nb_frames'] = int(video_streams[0]['nb_frames'])\nKeyError: 'nb_frames'\nav_interleaved_write_frame(): Broken pipe\nError writing trailer of pipe:: Broken pipe\n/src/ouput/tmp4dx7qpcgvtkzg8rbk1znxwmj5o0j_out.mp4: No such file or directory\nCropping to fit done..\n","metrics":{"predict_time":4.605560844},"model":"lucataco/real-esrgan-video","output":null,"started_at":"2025-01-11T06:38:54.119175412Z","status":"failed","urls":{"cancel":"https://api.replicate.com/v1/predictions/fh63g2xr1drj00cmagar1268wm/cancel","get":"https://api.replicate.com/v1/predictions/fh63g2xr1drj00cmagar1268wm","stream":"https://stream.replicate.com/v1/files/qoxq-wsjsjgzykydianxq5lvntwb5amjcp7seahbna4r4p3yci3stzvwq"},"version":"c23768236472c41b7a121ee735c8073e29080c01b32907740cfada61bff75320","webhook":"https://2fb3-14-139-241-220.ngrok-free.app/api/v1/replicate/webhook","webhook_events_filter":["start","output","completed"]}
+2025-01-11T06:38:56.467Z [WEBHOOK_REPLICATE] info: Webhook received for prediction fh63g2xr1drj00cmagar1268wm with status failed
+2025-01-11T06:38:57.051Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:57.360Z [WEBHOOK_REPLICATE] info: Stored prediction fh63g2xr1drj00cmagar1268wm with status failed and output null in redis
+2025-01-11T06:38:57.973Z [Redis] info: Redis is Connected Successfully.
+2025-01-11T06:38:57.974Z [REPLICATE_PREDICTION] info: Checking prediction status fh63g2xr1drj00cmagar1268wm
+2025-01-11T06:38:58.281Z [REPLICATE_PREDICTION] info: Predicton : {"status":"failed","output":"null","completed_at":"2025-01-11T06:38:58.724736248Z"}

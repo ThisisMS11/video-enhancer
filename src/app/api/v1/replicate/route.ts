@@ -16,11 +16,6 @@ const replicate = new Replicate({
     auth: process.env.REPLICATE_API_TOKEN,
 });
 
-interface ReplicatePrediction {
-    id: string;
-    status: string;
-}
-
 export async function POST(request: Request) {
     try {
         const { videoUrl, model, resolution } = await request.json();
@@ -51,8 +46,8 @@ export async function POST(request: Request) {
 
         const input = {
             video_path: cloudinaryUpload.secure_url,
-            resolution: 'FHD',
-            model: 'RealESRGAN_x4plus',
+            resolution: resolution,
+            model: model,
         };
 
         const prediction = await replicate.predictions.create({
@@ -60,7 +55,7 @@ export async function POST(request: Request) {
                 'c23768236472c41b7a121ee735c8073e29080c01b32907740cfada61bff75320',
             input,
             webhook: `${process.env.WEBHOOK_URL}/api/v1/replicate/webhook`,
-            webhook_events_filter: ['completed'],
+            webhook_events_filter: ['start', 'output', 'completed'],
         });
 
         const latest = await replicate.predictions.get(prediction.id);
