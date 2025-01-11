@@ -21,9 +21,10 @@ export default function VideoGenerator() {
     const [resolution, setResolution] = useState<string>('FHD');
 
     const [predictionId, setPredictionId] = useState<string | null>(null);
-    const [status, setStatus] = useState<string>('succeeded');
+    const [status, setStatus] = useState<string>('idle');
+    // 'https://replicate.delivery/yhqm/jXXxx6p34T6YE1M1vAhQd3HfW4Ubh6a98OIkdALzXS2zueDUA/tmpennu1a2nar5oftxwzhertkxi6u3w_out.mp4'
     const [enhancedVideoUrl, setEnhancedVideoUrl] = useState<string | null>(
-        'https://replicate.delivery/yhqm/jXXxx6p34T6YE1M1vAhQd3HfW4Ubh6a98OIkdALzXS2zueDUA/tmpennu1a2nar5oftxwzhertkxi6u3w_out.mp4'
+        null
     );
     const [uploadCareCdnUrl, setUploadCareCdnUrl] = useState<string | null>(
         null
@@ -242,7 +243,7 @@ export default function VideoGenerator() {
                                 </Card>
                             </div>
                         </div>
-                        
+
                         {/* Settings  */}
                         <div className="space-y-4 absolute bottom-10 w-full left-0 p-5">
                             <div>
