@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     try {
         const uploadOptions = {
-            resource_type: 'video' as 'video',
+            resource_type: 'video' as const,
             folder: folder,
         };
 
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
 
         logger.info(`Video uploaded to cloudinary: ${result.secure_url}`);
         return NextResponse.json({
-            url: result.eager[0].secure_url || result.secure_url,
+            url: result.eager?.[0]?.secure_url || result.secure_url,
             public_id: result.public_id,
         });
     } catch (error) {

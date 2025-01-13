@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export const useVideoProcessing = () => {
     const [predictionId, setPredictionId] = useState<string | null>(null);
-    const [status, setStatus] = useState<string>('idle');
+    const [status, setStatus] = useState<string>('default');
     const [enhancedVideoUrl, setEnhancedVideoUrl] = useState<string | null>(
         null
     );
@@ -42,8 +42,6 @@ export const useVideoProcessing = () => {
         }
 
         try {
-            setStatus('uploading');
-
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/replicate`,
                 {
@@ -67,7 +65,6 @@ export const useVideoProcessing = () => {
             }
 
             setPredictionId(data.id);
-            setStatus('processing');
             return data.id;
         } catch (error) {
             const message =

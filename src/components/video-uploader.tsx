@@ -11,13 +11,21 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Text, Upload, Wand2, XCircle, Trash2, History } from 'lucide-react';
+import {
+    Text,
+    Upload,
+    Wand2,
+    XCircle,
+    Trash2,
+    History,
+    RefreshCcw,
+} from 'lucide-react';
 import { FileUploaderRegular } from '@uploadcare/react-uploader/next';
 import '@uploadcare/react-uploader/core.css';
 import { Progress } from '@/components/ui/progress';
 import { VideoHistoryModal } from '@/components/video-history-model';
 import { videoAPI } from '@/services/api';
-import { useVideoProcessing } from '@/hooks/userVideoProcessing';
+import { useVideoProcessing } from '@/hooks/useVideoProcessing';
 
 export default function VideoGenerator() {
     const {
@@ -46,6 +54,7 @@ export default function VideoGenerator() {
             return;
         }
 
+        setStatus('uploading');
         /* upload the video to cloudinary if not already uploaded */
         let uploadedUrl = originalVideoUrl;
         if (!originalVideoUrl) {
@@ -71,6 +80,7 @@ export default function VideoGenerator() {
 
         /* enhance the video */
         try {
+            setStatus('processing');
             const predictionId = await handleEnhancingVideo(
                 uploadedUrl,
                 model,
@@ -220,8 +230,9 @@ export default function VideoGenerator() {
     const handleRemoveVideo = () => {
         setEnhancedVideoUrl(null);
         setPredictionId(null);
-        setStatus('idle');
+        setStatus('default');
         setUploadCareCdnUrl(null);
+        setOriginalVideoUrl(null);
     };
 
     /* Render the right side of the page Dynamically */
@@ -279,6 +290,15 @@ export default function VideoGenerator() {
                             Please try again or contact support if the issue
                             persists.
                         </p>
+                        <Button
+                            variant="outline"
+                            onClick={() =>
+                                handleProcessingVideo(uploadCareCdnUrl || '')
+                            }
+                        >
+                            <RefreshCcw className="w-4 h-4 mr-2" />
+                            Retry
+                        </Button>
                     </div>
                 );
             default:
