@@ -32,30 +32,8 @@ export async function POST(request: Request) {
             );
         }
 
-        // Upload to Cloudinary
-        logger.info(`Uploading video to Cloudinary`);
-        const cloudinaryUpload = await cloudinary.uploader.upload(videoUrl, {
-            resource_type: 'video',
-            folder: 'video-upscaler',
-            eager: [
-                {
-                    raw_transformation: 'vc_auto,q_auto',
-                },
-            ],
-            eager_async: true,
-        });
-
-        // Start the video upscaling process with Cloudinary URL
-        logger.info(
-            `Cloudinary Upload Completed, Starting video upscaling process with Cloudinary URL: ${cloudinaryUpload.secure_url}`
-        );
-
-        const processUrl =
-            cloudinaryUpload.eager?.[0]?.secure_url ||
-            cloudinaryUpload.secure_url;
-
         const input = {
-            video_path: processUrl,
+            video_path: videoUrl,
             resolution: resolution,
             model: model,
         };
@@ -78,7 +56,6 @@ export async function POST(request: Request) {
             success: true,
             id: latest.id,
             status: latest.status,
-            cloudinaryUrl: cloudinaryUpload.secure_url,
         });
     } catch (error) {
         logger.error(`API error: ${error}`);

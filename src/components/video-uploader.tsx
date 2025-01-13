@@ -16,35 +16,83 @@ import { FileUploaderRegular } from '@uploadcare/react-uploader/next';
 import '@uploadcare/react-uploader/core.css';
 import { Progress } from '@/components/ui/progress';
 import { VideoHistoryModal } from '@/components/video-history-model';
+import { videoAPI } from '@/services/api';
+import { useVideoProcessing } from '@/hooks/userVideoProcessing';
 
 export default function VideoGenerator() {
+    const {
+        status,
+        setStatus,
+        setPredictionId,
+        enhancedVideoUrl,
+        setEnhancedVideoUrl,
+        uploadCareCdnUrl,
+        setUploadCareCdnUrl,
+        handleEnhancingVideo,
+    } = useVideoProcessing();
+
     const [model, setModel] = useState<string>('RealESRGAN_x4plus');
     const [resolution, setResolution] = useState<string>('FHD');
-
-    const [_predictionId, setPredictionId] = useState<string | null>(null);
-    const [status, setStatus] = useState<string>('idle');
-    const [enhancedVideoUrl, setEnhancedVideoUrl] = useState<string | null>(
-        null
-    );
-    const [uploadCareCdnUrl, setUploadCareCdnUrl] = useState<string | null>(
-        null
-    );
     const [historyModalOpen, setHistoryModalOpen] = useState(false);
+    const [originalVideoUrl, setOriginalVideoUrl] = useState<string | null>(
+        null
+    );
+
+    /* Start the video processing */
+    const handleProcessingVideo = async (videoUrl: string) => {
+        if (!videoUrl) {
+            console.error('No video URL provided');
+            setStatus('error');
+            return;
+        }
+
+        /* upload the video to cloudinary if not already uploaded */
+        let uploadedUrl = originalVideoUrl;
+        if (!originalVideoUrl) {
+            try {
+                const uploadResult = await videoAPI.uploadToCloudinary(
+                    videoUrl,
+                    'original'
+                );
+                if (!uploadResult?.url) {
+                    throw new Error('Failed to get upload URL from Cloudinary');
+                }
+                uploadedUrl = uploadResult.url;
+                setOriginalVideoUrl(uploadedUrl);
+            } catch (error) {
+                console.error(
+                    'Error uploading original video to cloudinary:',
+                    error
+                );
+                setStatus('error');
+                return;
+            }
+        }
+
+        /* enhance the video */
+        try {
+            const predictionId = await handleEnhancingVideo(
+                uploadedUrl,
+                model,
+                resolution
+            );
+            if (!predictionId) {
+                throw new Error('No prediction ID returned');
+            }
+            pollPredictionStatus(predictionId);
+        } catch (error) {
+            console.error('Error enhancing video:', error);
+            setStatus('error');
+            return;
+        }
+    };
 
     /* Get the prediction status */
     const pollPredictionStatus = async (id: string) => {
         try {
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/replicate/prediction?id=${id}`
-            );
-            const data = await response.json();
-
-            if (!data) {
-                throw new Error('No data received from prediction endpoint');
-            }
-
+            const data = await videoAPI.getPredictionStatus(id);
+            console.log(data);
             const outputUrl = data.output ? JSON.parse(data.output) : null;
-
             switch (data.status) {
                 case 'succeeded':
                     await handlePredictionSuccess(data, outputUrl);
@@ -67,199 +115,104 @@ export default function VideoGenerator() {
 
     /* if video is successfully processed */
     const handlePredictionSuccess = async (data: any, outputUrl: string) => {
-        setEnhancedVideoUrl(outputUrl);
-        setStatus('succeeded');
+        try {
+            if (!data || !outputUrl) {
+                throw new Error('Invalid prediction data or output URL');
+            }
 
-        const cloudinaryData = await uploadToCloudinary(outputUrl);
-        const {
-            original_file,
-            completed_at,
-            predict_time,
-            model,
-            resolution,
-            status,
-            created_at,
-        } = data;
+            // Set UI state first
+            setEnhancedVideoUrl(outputUrl);
+            setStatus('succeeded');
 
-        await saveToDatabase({
-            original_video_url: original_file,
-            enhanced_video_url: cloudinaryData.url,
-            status: status,
-            created_at: created_at,
-            ended_at: completed_at,
-            model: model,
-            resolution: resolution,
-            predict_time: predict_time,
-        });
+            // Upload enhanced video to Cloudinary
+            const cloudinaryData = await videoAPI.uploadToCloudinary(
+                outputUrl,
+                'enhanced'
+            );
+            if (!cloudinaryData?.url) {
+                throw new Error(
+                    'Failed to upload enhanced video to Cloudinary'
+                );
+            }
+
+            // Extract required fields with validation
+            const {
+                original_file,
+                completed_at,
+                predict_time,
+                model,
+                resolution,
+                status,
+                created_at,
+            } = data;
+
+            if (!original_file || !completed_at || !created_at) {
+                throw new Error('Missing required fields in prediction data');
+            }
+
+            // Save to database
+            await videoAPI.saveToDatabase({
+                original_video_url: original_file,
+                enhanced_video_url: cloudinaryData.url,
+                status: status || 'succeeded',
+                created_at: created_at,
+                ended_at: completed_at,
+                model: model || 'unknown',
+                resolution: resolution || 'unknown',
+                predict_time: predict_time || null,
+            });
+        } catch (error) {
+            console.error('Error in handlePredictionSuccess:', error);
+            setStatus('error');
+            setEnhancedVideoUrl(null);
+            throw error;
+        }
     };
 
     /* if video is not processed */
     const handlePredictionFailed = async (data: any) => {
-        setStatus('failed');
-        setEnhancedVideoUrl(null);
-        setPredictionId(null);
-        setUploadCareCdnUrl(null);
-
-        const {
-            original_file,
-            completed_at,
-            model,
-            resolution,
-            status,
-            created_at,
-        } = data;
-
         try {
-            await saveToDatabase({
-                original_video_url: original_file,
-                enhanced_video_url: null,
-                status,
-                created_at,
+            if (!data) {
+                throw new Error('No prediction data provided');
+            }
+
+            // Reset UI state first
+            setStatus('failed');
+            setEnhancedVideoUrl(null);
+            setPredictionId(null);
+
+            // Extract and validate required fields
+            const {
+                original_file,
                 completed_at,
                 model,
                 resolution,
+                status,
+                created_at,
+            } = data;
+
+            if (!original_file || !completed_at || !created_at) {
+                throw new Error('Missing required fields in prediction data');
+            }
+
+            // Save failed prediction to database
+            await videoAPI.saveToDatabase({
+                original_video_url: original_file,
+                enhanced_video_url: null,
+                status: status || 'failed',
+                created_at: created_at,
+                completed_at: completed_at,
+                model: model || 'unknown',
+                resolution: resolution || 'unknown',
                 predict_time: null,
             });
         } catch (error) {
-            console.error(
-                'Failed to save video information to database:',
-                error
-            );
-        }
-    };
-
-    /* for saving the enhanced video to cloudinary */
-    const uploadToCloudinary = async (videoUrl: string) => {
-        try {
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/cloudinary/`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ videoUrl }),
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            if (!data.url) {
-                throw new Error('Invalid response from Cloudinary API');
-            }
-
-            return data;
-        } catch (error) {
-            console.error('Error uploading to Cloudinary:', error);
-            throw new Error('Failed to upload video to Cloudinary');
-        }
-    };
-
-    /* for saving the processed video information to database */
-    const saveToDatabase = async (inputData: any) => {
-        try {
-            if (!process.env.NEXT_PUBLIC_APP_URL) {
-                throw new Error(
-                    'App URL environment variable is not configured'
-                );
-            }
-
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/db`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(inputData),
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error(
-                    `Database save failed with status: ${response.status}`
-                );
-            }
-
-            const data = await response.json();
-            console.log('Database save response:', data);
-            return data;
-        } catch (error) {
-            console.error('Failed to save to database:', error);
-            throw new Error('Failed to save video information to database');
-        }
-    };
-
-    /* Upload the video to the server */
-    const handleUpload = async (videoUrl: string | null) => {
-        if (!videoUrl) {
-            console.error('No video URL provided');
-            setStatus('error');
-            return;
-        }
-
-        if (!process.env.NEXT_PUBLIC_APP_URL) {
-            console.error('App URL environment variable is not configured');
-            setStatus('error');
-            return;
-        }
-
-        if (!model || !resolution) {
-            console.error('Model or resolution not selected');
-            setStatus('error');
-            return;
-        }
-
-        try {
-            setStatus('uploading');
-            const body = {
-                videoUrl,
-                model: model,
-                resolution: resolution,
-            };
-
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/replicate`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(body),
-                }
-            ).catch((error) => {
-                console.error('Network error:', error);
-                throw new Error('Failed to connect to server');
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                console.error('Server error:', errorData);
-                throw new Error(
-                    `Server error: ${response.status} ${errorData.message || ''}`
-                );
-            }
-
-            const data = await response.json().catch(() => {
-                throw new Error('Invalid JSON response from server');
-            });
-
-            console.log('Upload response:', data);
-
-            if (!data || !data.id) {
-                throw new Error('Invalid response: missing prediction ID');
-            }
-
-            setPredictionId(data.id);
-            setStatus('processing');
-            pollPredictionStatus(data.id);
-        } catch (error) {
-            console.error('Upload error:', error);
-            setStatus('error');
-            throw error; // Re-throw to allow parent components to handle
+            console.error('Error in handlePredictionFailed:', error);
+            // Ensure UI shows failed state even if database save fails
+            setStatus('failed');
+            setEnhancedVideoUrl(null);
+            setPredictionId(null);
+            throw error;
         }
     };
 
@@ -471,13 +424,24 @@ export default function VideoGenerator() {
                             <Button
                                 className="w-full"
                                 size="lg"
-                                onClick={() => handleUpload(uploadCareCdnUrl)}
-                                disabled={status === 'processing' || status === 'uploading'}
+                                onClick={() =>
+                                    handleProcessingVideo(
+                                        uploadCareCdnUrl || ''
+                                    )
+                                }
+                                disabled={
+                                    status === 'processing' ||
+                                    status === 'uploading'
+                                }
                             >
                                 <Wand2 className="w-4 h-4 mr-2" />
-                                {status === 'processing' ? 'Enhancing Video...' :
-                                    status === 'uploading' ? 'Uploading Video...' :
-                                        'Enhance Video'}
+                                {status === 'processing'
+                                    ? 'Enhancing Video...'
+                                    : status === 'uploading'
+                                      ? 'Uploading Video...'
+                                      : status === 'failed'
+                                        ? 'Retry...'
+                                        : 'Enhance Video'}
                             </Button>
                             <Button
                                 className="w-full"

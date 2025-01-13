@@ -192,7 +192,7 @@ export async function GET() {
         const client = await clientPromise;
         if (!client) {
             logger.error('Failed to connect to MongoDB client');
-            return NextResponse.json(   
+            return NextResponse.json(
                 { error: 'Database connection failed' },
                 { status: 500 }
             );
