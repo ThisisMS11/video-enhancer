@@ -9,6 +9,9 @@ export const useVideoProcessing = () => {
     const [uploadCareCdnUrl, setUploadCareCdnUrl] = useState<string | null>(
         null
     );
+    const [uploadCareVideoSize, setUploadCareVideoSize] = useState<number | null>(
+        null
+    );
 
     /**
      * Enhances a video using the Replicate API
@@ -33,8 +36,8 @@ export const useVideoProcessing = () => {
             const error = !videoUrl
                 ? 'No video URL provided'
                 : !model || !resolution
-                  ? 'Model or resolution not selected'
-                  : 'App URL environment variable is not configured';
+                    ? 'Model or resolution not selected'
+                    : 'App URL environment variable is not configured';
 
             console.error(error);
             setStatus('error');
@@ -88,5 +91,7 @@ export const useVideoProcessing = () => {
         uploadCareCdnUrl,
         setUploadCareCdnUrl,
         handleEnhancingVideo,
+        uploadCareVideoSize, 
+        setUploadCareVideoSize
     };
 };

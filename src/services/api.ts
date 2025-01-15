@@ -1,5 +1,7 @@
 export const videoAPI = {
-    uploadToCloudinary: async (videoUrl: string, type: string) => {
+    uploadToCloudinary: async (videoUrl: string, type: string, uploadCareVideoSize: number | null = null) => {
+
+        console.log('uploadCareVideoSize', uploadCareVideoSize);
         try {
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/cloudinary/`,
@@ -8,7 +10,7 @@ export const videoAPI = {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ videoUrl, type }),
+                    body: JSON.stringify({ videoUrl, type, fileSize: uploadCareVideoSize }),
                 }
             );
 

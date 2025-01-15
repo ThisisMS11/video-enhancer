@@ -32,7 +32,7 @@ export async function GET(request: Request) {
         // Get the prediction status from KV store
         const prediction = await redisClient.hGetAll(`prediction:${id}`);
 
-        logger.info(`Predicton : ${JSON.stringify(prediction)}`);
+        logger.info(`Predicton Status with id ${id} : ${prediction.status}`);
 
         if (!prediction) {
             logger.info(`Prediction not found, still processing ${id}`);

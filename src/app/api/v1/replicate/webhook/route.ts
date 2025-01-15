@@ -28,6 +28,9 @@ async function storePredictionData(predictionId: string, payload: any) {
             created_at: payload.created_at || '',
             completed_at: payload.completed_at || '',
             predict_time: payload.metrics?.predict_time || '',
+            cancel_url: payload.urls?.cancel || '',
+            get_url: payload.urls?.get || '',
+            stream_url: payload.urls?.stream || '',
         };
 
         // Store in Redis with retry logic

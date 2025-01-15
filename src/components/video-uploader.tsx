@@ -19,6 +19,7 @@ import {
     Trash2,
     History,
     RefreshCcw,
+    X,
 } from 'lucide-react';
 import { FileUploaderRegular } from '@uploadcare/react-uploader/next';
 import '@uploadcare/react-uploader/core.css';
@@ -37,6 +38,8 @@ export default function VideoGenerator() {
         uploadCareCdnUrl,
         setUploadCareCdnUrl,
         handleEnhancingVideo,
+        uploadCareVideoSize,
+        setUploadCareVideoSize
     } = useVideoProcessing();
 
     const [model, setModel] = useState<string>('RealESRGAN_x4plus');
@@ -45,6 +48,7 @@ export default function VideoGenerator() {
     const [originalVideoUrl, setOriginalVideoUrl] = useState<string | null>(
         null
     );
+    const [cancelUrl, setCancelUrl] = useState<string | null>(null);
 
     /* Start the video processing */
     const handleProcessingVideo = async (videoUrl: string) => {
@@ -61,7 +65,8 @@ export default function VideoGenerator() {
             try {
                 const uploadResult = await videoAPI.uploadToCloudinary(
                     videoUrl,
-                    'original'
+                    'original',
+                    uploadCareVideoSize
                 );
                 if (!uploadResult?.url) {
                     throw new Error('Failed to get upload URL from Cloudinary');
@@ -78,7 +83,9 @@ export default function VideoGenerator() {
             }
         }
 
-        /* enhance the video */
+        setStatus('default')
+
+        // /* enhance the video */
         try {
             setStatus('processing');
             const predictionId = await handleEnhancingVideo(
@@ -98,28 +105,42 @@ export default function VideoGenerator() {
     };
 
     /* Get the prediction status */
-    const pollPredictionStatus = async (id: string) => {
+    const pollPredictionStatus = async (id: string, retryCount = 0) => {
         try {
             const data = await videoAPI.getPredictionStatus(id);
             console.log(data);
             const outputUrl = data.output ? JSON.parse(data.output) : null;
+            setCancelUrl(data.cancel_url);
             switch (data.status) {
                 case 'succeeded':
                     await handlePredictionSuccess(data, outputUrl);
                     break;
 
                 case 'failed':
-                    await handlePredictionFailed(data);
-                    setStatus('failed');
+                    if (retryCount < 3) {
+                        console.log(`Retry attempt ${retryCount + 1} of 3`);
+                        setStatus('processing');
+                        setTimeout(() => pollPredictionStatus(id, retryCount + 1), 3000);
+                    } else {
+                        console.log('Failed after 3 retry attempts');
+                        await handlePredictionFailed(data);
+                        setStatus('failed');
+                    }
                     break;
 
                 default:
                     setStatus('processing');
-                    setTimeout(() => pollPredictionStatus(id), 3000);
+                    setTimeout(() => pollPredictionStatus(id, retryCount), 3000);
             }
         } catch (error) {
             console.error('Polling error:', error);
-            setStatus('error');
+            if (retryCount < 3) {
+                console.log(`Retry attempt ${retryCount + 1} of 3 after error`);
+                setTimeout(() => pollPredictionStatus(id, retryCount + 1), 3000);
+            } else {
+                console.log('Failed after 3 retry attempts');
+                setStatus('error');
+            }
         }
     };
 
@@ -226,6 +247,32 @@ export default function VideoGenerator() {
         }
     };
 
+    /*  for canceling the processing */
+    const handleCancelProcessing = async () => {
+        if (cancelUrl) {
+            try {
+                const response = await fetch(cancelUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_REPLICATE_API_TOKEN}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log(data);
+                setStatus('default');
+                setEnhancedVideoUrl(null);
+                setPredictionId(null);
+                setCancelUrl(null);
+            } catch (error) {
+                console.error('Error canceling processing:', error);
+            }
+        }
+    };
+
     /* To remove the video from the state */
     const handleRemoveVideo = () => {
         setEnhancedVideoUrl(null);
@@ -260,6 +307,13 @@ export default function VideoGenerator() {
                             Enhancing Video...
                         </h2>
                         <Progress value={66} className="w-[65%] mx-auto" />
+                        <Button
+                            variant="outline"
+                            onClick={handleCancelProcessing}
+                        >
+                            <X className="w-4 h-4 mr-2" />
+                            Cancel Processing
+                        </Button>
                     </div>
                 );
             case 'succeeded':
@@ -358,11 +412,12 @@ export default function VideoGenerator() {
                                                     }
                                                     onFileUploadSuccess={(
                                                         info
-                                                    ) =>
+                                                    ) => {
+                                                        setUploadCareVideoSize(info.size);
                                                         setUploadCareCdnUrl(
                                                             info.cdnUrl
-                                                        )
-                                                    }
+                                                        );
+                                                    }}
                                                     multiple={false}
                                                     className="h-48 flex items-center justify-center"
                                                 />
@@ -445,23 +500,24 @@ export default function VideoGenerator() {
                                 className="w-full"
                                 size="lg"
                                 onClick={() =>
-                                    handleProcessingVideo(
-                                        uploadCareCdnUrl || ''
-                                    )
+                                    status === 'processing'
+                                        ? handleCancelProcessing()
+                                        : handleProcessingVideo(uploadCareCdnUrl || '')
                                 }
-                                disabled={
-                                    status === 'processing' ||
-                                    status === 'uploading'
-                                }
+                                disabled={status === 'uploading'}
                             >
-                                <Wand2 className="w-4 h-4 mr-2" />
+                                {status === 'processing' ? (
+                                    <X className="w-4 h-4 mr-2" />
+                                ) : (
+                                    <Wand2 className="w-4 h-4 mr-2" />
+                                )}
                                 {status === 'processing'
-                                    ? 'Enhancing Video...'
+                                    ? 'Cancel Processing'
                                     : status === 'uploading'
-                                      ? 'Uploading Video...'
-                                      : status === 'failed'
-                                        ? 'Retry...'
-                                        : 'Enhance Video'}
+                                        ? 'Uploading Video...'
+                                        : status === 'failed'
+                                            ? 'Retry...'
+                                            : 'Enhance Video'}
                             </Button>
                             <Button
                                 className="w-full"

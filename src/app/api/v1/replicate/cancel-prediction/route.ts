@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     logger.info(`Cancelling prediction ${id}`);
 
     const replicate = new Replicate({
-        auth: process.env.REPLICATE_API_TOKEN,
+        auth: process.env.NEXT_PUBLIC_REPLICATE_API_TOKEN,
     });
 
     try {

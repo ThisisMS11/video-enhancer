@@ -472,3 +472,35 @@ User information:
   "legalAcceptedAt": null
 }
 """
+
+
+prediciton response : 
+{
+    "status": "processing",
+    "output": "",
+    "resolution": "FHD",
+    "created_at": "2025-01-14T19:28:27.259Z",
+    "predict_time": "",
+    "model": "RealESRGAN_x4plus",
+    "completed_at": "",
+    "stream_url": "https://stream.replicate.com/v1/files/qoxq-yiqnsbru322w3eh6wirws243xht5wqmlylqzcuy5523mx5qawoqq",
+    "get_url": "https://api.replicate.com/v1/predictions/f95hn6f8fdrj20cmcs4t4dktgw",
+    "original_file": "https://res.cloudinary.com/cloudinarymohit/video/upload/vc_h264:high:4.1/q_auto:good/c_scale,w_1280/fps_30/vc_auto/v1736882900/original_videos/jr44dg4ryu2azmhnvznr.mp4",
+    "cancel_url": "https://api.replicate.com/v1/predictions/f95hn6f8fdrj20cmcs4t4dktgw/cancel"
+}
+
+{
+    "status": "processing",
+    "output": "",
+    "resolution": "FHD",
+    "created_at": "2025-01-14T19:28:27.259Z",
+    "predict_time": "",
+    "model": "RealESRGAN_x4plus",
+    "completed_at": "",
+    "stream_url": "https://stream.replicate.com/v1/files/qoxq-yiqnsbru322w3eh6wirws243xht5wqmlylqzcuy5523mx5qawoqq",
+    "get_url": "https://api.replicate.com/v1/predictions/f95hn6f8fdrj20cmcs4t4dktgw",
+    "original_file": "https://res.cloudinary.com/cloudinarymohit/video/upload/vc_h264:high:4.1/q_auto:good/c_scale,w_1280/fps_30/vc_auto/v1736882900/original_videos/jr44dg4ryu2azmhnvznr.mp4",
+    "cancel_url": "https://api.replicate.com/v1/predictions/f95hn6f8fdrj20cmcs4t4dktgw/cancel"
+}
+
+ {"predict_time":"0.566205318","model":"RealESRGAN_x4plus","completed_at":"2025-01-15T18:12:15.695298119Z","stream_url":"https://stream.replicate.com/v1/files/qoxq-4hcmw2tct4477iwomh3rayywkzoolhgdzkute2zmseh52uyjf27a","resolution":"FHD","get_url":"https://api.replicate.com/v1/predictions/cb2h9244hnrj40cmdcmteb4gpw","original_file":"https://res.cloudinary.com/cloudinarymohit/video/upload/q_auto:good/vc_h264:main/vs_3/br_auto/v1736964658/original_videos/lykknr9vdfqqdg0wgwr6.mp4","cancel_url":"https://api.replicate.com/v1/predictions/cb2h9244hnrj40cmdcmteb4gpw/cancel","output":"","status":"failed","created_at":"2025-01-15T18:11:10.605Z"}
