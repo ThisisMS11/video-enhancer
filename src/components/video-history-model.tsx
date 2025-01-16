@@ -109,52 +109,57 @@ export function VideoHistoryModal({
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {history && history.map((process) => (
-                                <TableRow key={process._id}>
-                                    <TableCell>
-                                        {format(
-                                            new Date(process.created_at),
-                                            'PPp'
-                                        )}
-                                    </TableCell>
-                                    <TableCell>{process.model}</TableCell>
-                                    <TableCell>{process.resolution}</TableCell>
-                                    <TableCell>
-                                        {getStatusBadge(process.status)}
-                                    </TableCell>
-                                    <TableCell>
-                                        {formatDuration(process.predict_time)}
-                                    </TableCell>
-                                    <TableCell>
-                                        <div className="flex space-x-2">
-                                            <a
-                                                href={
-                                                    process.original_video_url
-                                                }
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-blue-500 hover:text-blue-700"
-                                            >
-                                                Original Video
-                                            </a>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>
-                                        <div className="flex space-x-2">
-                                            <a
-                                                href={
-                                                    process.enhanced_video_url
-                                                }
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-blue-500 hover:text-blue-700"
-                                            >
-                                                Enhanced Video
-                                            </a>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                            {history &&
+                                history.map((process) => (
+                                    <TableRow key={process._id}>
+                                        <TableCell>
+                                            {format(
+                                                new Date(process.created_at),
+                                                'PPp'
+                                            )}
+                                        </TableCell>
+                                        <TableCell>{process.model}</TableCell>
+                                        <TableCell>
+                                            {process.resolution}
+                                        </TableCell>
+                                        <TableCell>
+                                            {getStatusBadge(process.status)}
+                                        </TableCell>
+                                        <TableCell>
+                                            {formatDuration(
+                                                process.predict_time
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex space-x-2">
+                                                <a
+                                                    href={
+                                                        process.original_video_url
+                                                    }
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-blue-500 hover:text-blue-700"
+                                                >
+                                                    Original Video
+                                                </a>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex space-x-2">
+                                                <a
+                                                    href={
+                                                        process.enhanced_video_url
+                                                    }
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-blue-500 hover:text-blue-700"
+                                                >
+                                                    Enhanced Video
+                                                </a>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                         </TableBody>
                     </Table>
                 )}

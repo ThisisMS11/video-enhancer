@@ -9,6 +9,7 @@ import {
     UserButton,
 } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
+import { Toaster } from '@/components/ui/sonner';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -38,6 +39,7 @@ export default function RootLayout({
                 <body
                     className={`${geistSans.variable} ${geistMono.variable} antialiased`}
                 >
+                    <Toaster />
                     <div className="fixed top-4 right-4 z-50">
                         <SignedOut>
                             <SignInButton mode="modal">
