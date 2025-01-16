@@ -83,8 +83,6 @@ export default function VideoGenerator() {
             }
         }
 
-        setStatus('default')
-
         // /* enhance the video */
         try {
             setStatus('processing');

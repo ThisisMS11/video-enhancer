@@ -65,6 +65,7 @@ export const videoAPI = {
     },
 
     getPredictionStatus: async (id: string) => {
+        console.log('CALLING PREDICTION STATUS');
         try {
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/replicate/prediction?id=${id}`

@@ -51,7 +51,6 @@ const getOptimalVideoSettings = (fileSize?: number): Partial<any> => {
                 'q_auto:good',
                 'vc_h264:main',
                 'vs_3',
-                'br_auto'
             ].join('/'),
             format: 'mp4'
         }],
@@ -81,22 +80,20 @@ export async function POST(request: NextRequest) {
         // Modified settings for original videos
         if (type === 'original') {
             const videoSettings = getOptimalVideoSettings(fileSize);
-            
             Object.assign(uploadOptions, {
                 ...videoSettings
             });
-        }
-
-        // For enhanced videos, upload without compression
-        if (type === 'enhanced') {
+        } else {
             Object.assign(uploadOptions, {
                 quality_analysis: true,
                 transformation: [{
                     crop: 'scale',
-                    quality: 'auto:best'  // Preserve enhanced quality
+                    quality: 'auto:best' 
                 }]
             });
         }
+
+        logger.info(`Uploading video type : ${type} to cloudinary with options: ${JSON.stringify(uploadOptions)}`);
 
         const result = await cloudinary.uploader.upload(
             videoUrl,

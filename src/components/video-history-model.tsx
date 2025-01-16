@@ -109,7 +109,7 @@ export function VideoHistoryModal({
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {history.map((process) => (
+                            {history && history.map((process) => (
                                 <TableRow key={process._id}>
                                     <TableCell>
                                         {format(
